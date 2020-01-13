@@ -51,100 +51,147 @@
 	/* ---------------------------------------------------------------------------- */
 	/* Commands */
 	/* ---------------------------------------------------------------------------- */
-	function initcmd(){	
+	function initcmd(){
 		cmdfn={
+			'help':function(cmd,args){
+				out.Println('Available commands:');
+				Object.keys(cmdfn).forEach(
+					function(cmd,cmdidx){
+						out.Println(cmd)
+					}
+				)
+			},
 			'foo':function(cmd,args){
-				out.Println('foo()');
-				out.Println(JSON.stringify(cmd));
-				out.Println(JSON.stringify(args));
+				switch(args[0]){
+					case '--help':
+						out.Println("foo()'s help");
+						break;
+					default:
+						out.Println('foo()');
+						out.Println(JSON.stringify(cmd));
+						out.Println(JSON.stringify(args));
+						break;
+				}
 			},
 			'args':function(cmd,args){
-				out.Println("Arg len: "+args.length);
-				args.forEach(function(arg,argidx){
-					out.Print('\t'+argidx+':'+arg+'\n');
-				});
+				switch(args[0]){
+					case '--help':
+						out.Println("Prints command and arguments");
+						break;
+					default:
+						out.Println("Arg len: "+args.length);
+						args.forEach(function(arg,argidx){
+							out.Print('\t'+argidx+':'+arg+'\n');
+						});
+
+						break;
+				}
 			},
 			'getpars':function(cmd,args){
-				try{
-					Parameters().StandardKeys().forEach(function(k,kidx){
-						out.Print(
-							k+':'+
-							Parameters().Parameter(k)+
-							'\n'
-						);
-					});
-				}catch(e){
-					out.Print(e.toString());
+				switch(args[0]){
+					case '--help':
+						out.Println("Prints request arguments");
+						break;
+					default:
+						try{
+							Parameters().StandardKeys().forEach(function(k,kidx){
+								out.Print(
+									k+':'+
+									Parameters().Parameter(k)+
+									'\n'
+								);
+							});
+						}catch(e){
+							out.Print(e.toString());
+						}
+
+						break;
 				}
 			},
 			'dbtables':function(cmd,args){
-				try{
-					out.Print('----------------------------------------\n');
-					out.Print('Tables:\n');
-					out.Print('----------------------------------------\n');
-					var r=DBQuery(
-						"lnks",
-						"select * from pg_catalog.pg_tables",
-						{}
-					);
-					if(r!=undefined){
-						out.Print(
-							'NumCols:'+
-							r.Columns().length+
-							'\n'
-						);
-						out.Print("\nColumns:\n");
-						r.Columns().forEach(function(col){
-							out.Print(col);
-						});
-						out.Print("\nRows:\n");
-						while(r.Next()){
-							r.Data().forEach(
-								function(d){
-									out.Print(d);
-									out.Print(',');
-								}
+				switch(args[0]){
+					case '--help':
+						out.Println("Lists database tables");
+						break;
+					default:
+						try{
+							out.Print('----------------------------------------\n');
+							out.Print('Tables:\n');
+							out.Print('----------------------------------------\n');
+							var r=DBQuery(
+								"lnks",
+								"select * from pg_catalog.pg_tables",
+								{}
 							);
-							out.Print('\n');
+							if(r!=undefined){
+								out.Print(
+									'NumCols:'+
+									r.Columns().length+
+									'\n'
+								);
+								out.Print("\nColumns:\n");
+								r.Columns().forEach(function(col){
+									out.Print(col);
+								});
+								out.Print("\nRows:\n");
+								while(r.Next()){
+									r.Data().forEach(
+										function(d){
+											out.Print(d);
+											out.Print(',');
+										}
+									);
+									out.Print('\n');
+								}
+								out.Print('\n');
+								out.Print('----------------------------------------\n');
+								out.Print("done");
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
 						}
-						out.Print('\n');
-						out.Print('----------------------------------------\n');
-						out.Print("done");
-					}else{
-						out.Print("Failed to query");
-					}
-				}catch(e){
-					out.Print(e.toString());
+						break;
 				}
 			},
 			'dbquery':function(cmd,args){
-				try{
-					if(args.length==0){
-						out.Print("No arguments specified");
-					}
-					var r=DBQuery(
-						"lnks",
-						args.join(' '),
-						{}
-					);
-					if(r!=undefined){
-						r.Columns().forEach(function(col){
-							out.Print(col+',');
-						});
-						while(r.Next()){
-							r.Data().forEach(
-								function(d){
-									out.Print(d);
-									out.Print(',');
-								}
+				switch(args[0]){
+					case '--help':
+						out.Println("Executes database query");
+						out.Println("Usage:");
+						out.Println("\tdbquery SQL");
+						break;
+					default:
+						try{
+							if(args.length==0){
+								out.Print("No arguments specified");
+							}
+							var r=DBQuery(
+								"lnks",
+								args.join(' '),
+								{}
 							);
-							out.Print('\n');
+							if(r!=undefined){
+								r.Columns().forEach(function(col){
+									out.Print(col+',');
+								});
+								while(r.Next()){
+									r.Data().forEach(
+										function(d){
+											out.Print(d);
+											out.Print(',');
+										}
+									);
+									out.Print('\n');
+								}
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
 						}
-					}else{
-						out.Print("Failed to query");
-					}
-				}catch(e){
-					out.Print(e.toString());
+						break;
 				}
 			},
 			'dbexec':function(cmd,args){
