@@ -1,0 +1,34 @@
+<@
+	function printkeys(o){
+		Object.keys(o).forEach(function(k,kidx){
+			out.Print(k+":"+typeof(o[k]));
+			out.Print("\n");
+		});
+		out.Print('\n');
+
+	}
+	try{
+		out.Print('----------------------------------------\n');
+		out.Print('Parameters:\n');
+		out.Print('----------------------------------------\n');
+		/*
+		Parameters().Parameter(k)
+			k: string
+				parameter to find
+			return:
+				{0:'v0',1:'v1',...}
+		*/
+		//printkeys(Parameters());
+		//printkeys(Parameters().FileKeys());//0,1,2
+		//printkeys(Parameters().StandardKeys());//0,1,2
+		Parameters().StandardKeys().forEach(function(k,kidx){
+			out.Print(
+				k+':'+
+				Parameters().Parameter(k)+
+				'\n'
+			);
+		});
+	}catch(e){
+		out.Print(e.toString());
+	}
+@>

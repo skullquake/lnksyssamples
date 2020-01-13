@@ -1,0 +1,42 @@
+<@
+	try{
+		var p=Parameters();
+		out.Print(typeof(p));
+		Object.keys(p).forEach(function(k,kidx){
+			out.Print(k+":"+typeof(p[k]));
+			out.Print("\n");
+		});
+		out.Print('\n');
+		var sk=p.StandardKeys();
+		Object.keys(sk).forEach(function(k,kidx){
+			out.Print(k+":"+typeof(sk[k]));
+			out.Print("\n");
+		});
+		out.Print('\n');
+		var r=DBQuery(
+			"lnks",
+			"select now() as a"
+		);
+		if(r!=undefined){
+			//print members
+			Object.keys(r).forEach(function(k,kidx){
+				out.Print(k+":"+typeof(r[k]));
+				out.Print("\n");
+			});
+			out.Print(r.Columns().length);
+			out.Print("\n");
+			while(r.Next()){
+				r.Columns().forEach(
+					function(col){
+						out.Print(col);
+					}
+				);
+			}
+			out.Print("done");
+		}else{
+			out.Print("Failed to query");
+		}
+	}catch(e){
+		out.Print(e.toString());
+	}
+@>

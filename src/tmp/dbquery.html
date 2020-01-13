@@ -1,0 +1,38 @@
+<@
+	try{
+		out.Print('----------------------------------------\n');
+		out.Print('Database:\n');
+		out.Print('----------------------------------------\n');
+		var r=DBQuery(
+			"lnks",
+			"select now() as a",
+			{}
+		);
+		if(r!=undefined){
+			out.Print(
+				'NumCols:'+
+				r.Columns().length+
+				'\n'
+			);
+			out.Print("\nColumns:\n");
+			r.Columns().forEach(function(col){
+				out.Print(col);
+			});
+			out.Print("\nRows:\n");
+			while(r.Next()){
+				r.Data().forEach(
+					function(d){
+						out.Print(d);
+					}
+				);
+			}
+			out.Print('\n');
+			out.Print('----------------------------------------\n');
+			out.Print("done");
+		}else{
+			out.Print("Failed to query");
+		}
+	}catch(e){
+		out.Print(e.toString());
+	}
+@>

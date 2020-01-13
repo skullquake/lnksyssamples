@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<style>
+			html,
+			body{
+				padding:unset;
+				margin:unset;
+				background:#000000;
+			}
+		</style>
+		<link rel="stylesheet" href="./res/css/jquery.terminal/jquery.terminal-2.12.0.css"></link>
+		<script src="/jquery.js"></script>
+		<script src="/jquery.terminal.js"></script>
+	</head>
+	<body>
+		<div id="t"></div>
+		<script>
+			$(document).ready(
+				function(){
+					$("#t").terminal(
+						function(command,term){
+							switch(command){
+								case 'help':
+									term.echo('Available Commands:');
+									term.echo('\thelp');
+									term.echo('\treload');
+									term.echo('\ttestcon');
+									term.echo('\txas');
+									break;
+								case 'reload':
+									window.location.reload();
+									break;
+								case 'testcon':
+									term.echo('testing connection...');
+									$.get(
+										'xas.js'
+									).done(
+										function(){
+											term.echo('done');
+										}
+									).fail(
+										function(){
+											term.echo('error');
+										}
+									);
+									break;
+								case 'xas':
+									term.push(
+										function(command,term){
+											if(command=='exit'){
+												term.pop();
+												return;
+											}else{
+												$.get(
+													'xas.js',
+													{
+														cmd:command
+													}
+												).done(
+													function(data){
+														term.echo(data);
+													}
+												).fail(
+										function(){
+											term.echo('error');
+										}
+									);
+
+											}
+										}
+									);
+									break;
+								default:
+									term.echo('Invalid command');
+									break;
+							}
+						}
+					);
+				}
+			);
+		</script>
+	</body>
+</html>
