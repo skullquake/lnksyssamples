@@ -17,6 +17,26 @@
 	var cmd=null;
 	var args=null;
 	var cmdfn=null;
+	var feedback=null;
+	/* ---------------------------------------------------------------------------- */
+	/* Reponse helpers */
+	/* ---------------------------------------------------------------------------- */
+	function feedbackData(a){
+		feedback={};
+		feedback.type='text'
+		feedback.data=a;
+		out.Print(JSON.stringify(feedback));
+	}
+	function feedbackAlert(a){
+		feedback={};
+		feedback['type']='js';
+		feedback.data="alert('"+a.replace("'","\\'")+"')";
+		out.Print(JSON.stringify(feedback));
+	}
+	function feedbackJS(a){
+		response.type='js';
+		response.data=a;
+	}
 	/* ---------------------------------------------------------------------------- */
 	/* Extract input components */
 	/* ---------------------------------------------------------------------------- */
@@ -57,21 +77,9 @@
 				out.Println('Available commands:');
 				Object.keys(cmdfn).forEach(
 					function(cmd,cmdidx){
-						out.Println(cmd)
+						out.Println('\t'+cmd)
 					}
 				)
-			},
-			'foo':function(cmd,args){
-				switch(args[0]){
-					case '--help':
-						out.Println("foo()'s help");
-						break;
-					default:
-						out.Println('foo()');
-						out.Println(JSON.stringify(cmd));
-						out.Println(JSON.stringify(args));
-						break;
-				}
 			},
 			'args':function(cmd,args){
 				switch(args[0]){
@@ -173,9 +181,16 @@
 								{}
 							);
 							if(r!=undefined){
+								var str_hdr=''
 								r.Columns().forEach(function(col){
-									out.Print(col+',');
+									str_hdr+=(col+',');
 								});
+								for(var i=0;i<str_hdr.length;i++)out.Print('-');
+								out.Print('\n');
+								out.Print(str_hdr);
+								out.Print('\n');
+								for(var i=0;i<str_hdr.length;i++)out.Print('-');
+								out.Print('\n');
 								while(r.Next()){
 									r.Data().forEach(
 										function(d){
@@ -220,8 +235,11 @@
 				}catch(e){
 					out.Print(e.toString());
 				}
+			},
+			'feedbacktest':function(cmd,args){
+				feedbackAlert("hi'hi");
+				//feedbackData('hi');
 			}
-
 		};
 	}
 @>

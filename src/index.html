@@ -63,11 +63,48 @@
 													}
 												).done(
 													function(data){
-														term.echo(data);
+														try{
+															var obj_response=JSON.parse(data);
+															if(typeof(obj_response)==='string'||obj_response instanceof String){
+																term.echo("is string");
+																term.echo(data);
+															}else{
+																if(Array.isArray(obj_response)){
+																	term.echo("is array");
+																	term.echo(JSON.stringify(obj_response));
+																}else{
+																	if(obj_response['type']==null){
+																	}else{
+																		switch(obj_response['type']){
+																			case 'text':
+																				if(typeof(obj_response['data'])==='string'||obj_response['data'] instanceof String){
+																					term.echo(obj_response['data']);
+																				}else{
+																					term.echo(JSON.stringify(obj_response['data']));
+																				}
+																				break;
+																			case 'js':
+																				if(typeof(obj_response['data'])==='string'||obj_response['data'] instanceof String){
+																					term.echo('feedback type:js');
+																					eval(obj_response['data']);
+																					break;
+																				}else{
+																					term.echo('No feedback data provided');
+																				}
+																				default:
+																					term.echo('Invalid feedback type ('+obj_response['type']+')');
+																					break;
+																		}
+																	}
+																}
+															}
+														}catch(e){
+															term.echo(data);
+														}
 													}
 												).fail(
 										function(){
-											term.echo('error');
+											term.echo("Error: Ajax Failure");
 										}
 									);
 
@@ -76,7 +113,7 @@
 									);
 									break;
 								default:
-									term.echo('Invalid command');
+									term.echo('Error: Invalid command');
 									break;
 							}
 						}
