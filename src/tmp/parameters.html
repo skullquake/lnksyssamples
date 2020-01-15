@@ -5,7 +5,14 @@
 			out.Print("\n");
 		});
 		out.Print('\n');
+	}
 
+	function parametersToJson(o){
+		var ret={}
+		Parameters().StandardKeys().forEach(function(k,kidx){
+			ret[k]=Parameters().Parameter(k)[0];
+		});
+		return ret;
 	}
 	try{
 		out.Print('----------------------------------------\n');
@@ -28,6 +35,7 @@
 				'\n'
 			);
 		});
+		out.Println(JSON.stringify(parametersToJson()));
 	}catch(e){
 		out.Print(e.toString());
 	}

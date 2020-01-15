@@ -34,8 +34,10 @@
 		out.Print(JSON.stringify(feedback));
 	}
 	function feedbackJS(a){
-		response.type='js';
-		response.data=a;
+		feedback={};
+		feedback['type']='js';
+		feedback.data=a;
+		out.Print(JSON.stringify(feedback));
 	}
 	/* ---------------------------------------------------------------------------- */
 	/* Extract input components */
@@ -68,6 +70,20 @@
 		});
 		out.Print('\n');
 	}
+	function parametersToJson(){
+		var ret={}
+		Parameters().StandardKeys().forEach(function(k,kidx){
+			ret[k]=Parameters().Parameter(k)[0];
+		});
+		return ret;
+	}
+	function jsonToUrl(o){
+		return Object.keys(o).map(function(k){
+			//return encodedURIComponent(k)+'='+encodedURIComponent(o[k])
+			return encodeURI(k)+'='+encodeURI(o[k])
+		}).join('&');
+	}
+
 	/* ---------------------------------------------------------------------------- */
 	/* Commands */
 	/* ---------------------------------------------------------------------------- */
@@ -123,24 +139,28 @@
 						break;
 					default:
 						try{
-							out.Print('----------------------------------------\n');
-							out.Print('Tables:\n');
-							out.Print('----------------------------------------\n');
 							var r=DBQuery(
 								"lnks",
-								"select * from pg_catalog.pg_tables",
+"SELECT\n\
+    table_schema || '.' || table_name\n\
+as Table\n\
+FROM\n\
+    information_schema.tables\n\
+WHERE\n\
+    table_type = 'BASE TABLE'\n\
+AND\n\
+    table_schema NOT IN ('pg_catalog', 'information_schema');",
 								{}
 							);
 							if(r!=undefined){
-								out.Print(
-									'NumCols:'+
-									r.Columns().length+
-									'\n'
-								);
-								out.Print("\nColumns:\n");
+								var str_hdr=''
 								r.Columns().forEach(function(col){
-									out.Print(col);
+									str_hdr+=(col+',');
 								});
+								for(var i=0;i<str_hdr.length;i++)out.Print('-');
+								out.Print('\n');
+								out.Print(str_hdr);
+								out.Print('\n');
 								out.Print("\nRows:\n");
 								while(r.Next()){
 									r.Data().forEach(
@@ -151,9 +171,6 @@
 									);
 									out.Print('\n');
 								}
-								out.Print('\n');
-								out.Print('----------------------------------------\n');
-								out.Print("done");
 							}else{
 								out.Print("Failed to query");
 							}
@@ -236,12 +253,180 @@
 					out.Print(e.toString());
 				}
 			},
-			'feedbacktest':function(cmd,args){
-				feedbackAlert("hi'hi");
-				//feedbackData('hi');
-			}
+			'alert':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Alerts message");
+						out.Println("Usage:");
+						out.Println("\talert MSG");
+						break;
+					default:
+						feedbackAlert(args.join(' '));
+						break;
+				}
+			},
+			'reload':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Reloads window");
+						out.Println("Usage:");
+						out.Println("\treload");
+						break;
+					default:
+						feedbackJS('window.location.reload()');
+						break;
+				}
+			},
+			'open':function(cmd,args){
+				if(args.length==0){
+					out.Println("Invalid Usage");
+					return;
+				}
+				switch(args[0]){
+					case '--help':
+						out.Println("Opens page in panel");
+						out.Println("Usage:");
+						out.Println("\topen URL");
+						break;
+					default:
+						args[1]
+						feedbackJS(
+							'lnksys.ui.open('+
+							"'"+args[0]+"'"+
+							(args[1]==null?'':','+"'"+args[1]+"'")+
+							')'
+						);
+						break;
+				}
+			},
+			'vi':function(){
+				cmdfn['edit'](cmd,args);
+			},
+			'vim':function(cmd,args){
+				cmdfn['edit'](cmd,args);
+			},
+			'edit':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Opens editor");
+						out.Println("Usage:");
+						out.Println("\topen FILE");
+						break;
+					default:
+						feedbackJS(
+							'lnksys.ui.open("/ace.html?cmd=open&file='+encodeURI(args[0])+'");console.log("'+args[0]+'")'
+						);
+						break;
+				}
+			},
+			'ls':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Shows files");
+						break;
+					default:
+						try{
+							var r=DBQuery(
+								"lnks",
+								"SELECT name FROM file",
+								{}
+							);
+							if(r!=undefined){
+								while(r.Next()){
+									r.Data().forEach(
+										function(d){
+											out.Print(d);
+										}
+									);
+									out.Print('\n');
+								}
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
+						}
+						break;
+				}
+			},
+			'cat':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Prints file contents");
+						break;
+					default:
+						try{
+							var r=DBQuery(
+								"lnks",
+								"SELECT content FROM file where name='"+args[0]+"'",
+								{}
+							);
+							if(r!=undefined){
+								while(r.Next()){
+									r.Data().forEach(
+										function(d){
+											out.Print(d);
+										}
+									);
+									out.Print('\n');
+								}
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
+						}
+						break;
+				}
+			},
+			'touch':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Creates file");
+						break;
+					default:
+						try{
+							var r=DBExecute(
+								"lnks",
+								"INSERT INTO file VALUES('"+args[0]+"','')"
+							);
+							if(r!=undefined){
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
+						}
+						break;
+				}
+			},
+			'rm':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Removes file");
+						break;
+					default:
+						try{
+							var r=DBExecute(
+								"lnks",
+								"DELETE FROM file"+(args[0]!="*"?" WHERE name='"+args[0]+"'":"")
+							);
+							if(r!=undefined){
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
+						}
+						break;
+				}
+			},
+
+
+
+
+
 		};
 	}
+
 @>
-
-

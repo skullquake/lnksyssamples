@@ -1,0 +1,31 @@
+jsPanel.create({
+    theme: {
+        bgPanel: '#222222',
+        bgContent: '#fff',
+        colorHeader: '#fff',
+        colorContent: '#000'
+    },
+    headerToolbar: 'Subtitle',
+    footerToolbar: 'Status',
+    contentSize: {
+        width: function() { return Math.min(730, window.innerWidth*0.9);},
+        height: function() { return Math.min(400, window.innerHeight*0.5);}
+    },
+    position: 'center-top 0 100',
+    animateIn: 'jsPanelFadeIn',
+    headerTitle: 'Title',
+    contentAjax: {
+        url: 'ace.html',
+        evalscripttags: true,
+        done: function (panel) {
+            panel.content.innerHTML = this.responseText;
+        }
+    },
+    onwindowresize: true,
+    callback: function (panel) {
+        jsPanel.setStyles(panel.content, {
+            padding: '10px',
+            fontSize: '1rem'
+        });
+    }
+});
