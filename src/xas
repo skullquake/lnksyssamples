@@ -1,0 +1,10 @@
+#!/data/data/com.termux/files/usr/bin/bash
+HOST="http://localhost:1111/xaspost.js"
+CMD="$*"
+BODY='{"cmd":"'$CMD'"}'
+#echo $CMD
+#echo $BODY
+curl\
+	-H "Content-type: application/json"\
+	--data "$BODY"\
+	$HOST

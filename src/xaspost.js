@@ -54,7 +54,7 @@
 	function exec(){
 		if(cmd.length>0){
 			if(cmdfn[cmd]==null){
-				out.Println("Command not found");
+				out.Println("Command not found: "+cmd);
 			}else{
 				cmdfn[cmd](cmd,args)
 			}

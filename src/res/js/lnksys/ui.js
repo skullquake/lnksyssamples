@@ -18,7 +18,7 @@ lnksys.ui.open=function(url,title,formparams){
 		//footerToolbar: 'Status',
 		contentSize: {
 			width: function() { return Math.min(730, window.innerWidth*0.9);},
-			height: function() { return Math.min(400, window.innerHeight*0.5);}
+			height: function() { return Math.min(300, window.innerHeight*0.5);}
 		},
 		position: 'center-top 0 100',
 		animateIn: 'jsPanelFadeIn',
