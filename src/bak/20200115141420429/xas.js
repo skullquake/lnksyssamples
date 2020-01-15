@@ -379,6 +379,36 @@ AND\n\
 						break;
 				}
 			},
+			'dbeval':function(cmd,args){
+				switch(args[0]){
+					case '--help':
+						out.Println("Evaluates vfs item server side");
+						break;
+					default:
+						out.Println("Executing "+args[0]);
+						try{
+							var r=DBQuery(
+								"lnks",
+								"SELECT content FROM file where name='"+args[0]+"' LIMIT 1",
+								{}
+							);
+							if(r!=undefined){
+								while(r.Next()){
+									r.Data().forEach(
+										function(d){
+											eval(d);
+										}
+									);
+								}
+							}else{
+								out.Print("Failed to query");
+							}
+						}catch(e){
+							out.Print(e.toString());
+						}
+						break;
+				}
+			},
 			'touch':function(cmd,args){
 				switch(args[0]){
 					case '--help':
@@ -421,11 +451,6 @@ AND\n\
 						break;
 				}
 			},
-
-
-
-
-
 		};
 	}
 

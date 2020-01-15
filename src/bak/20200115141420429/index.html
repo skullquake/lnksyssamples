@@ -105,13 +105,10 @@
 											}else{
 												term.pause();
 												$('.cmd-cursor-line').addClass('animate');
-												//term.echo(JSON.stringify({cmd:command}));
-												$.ajax(
-													'xaspost.js',
+												$.get(
+													'xas.js',
 													{
-														data:JSON.stringify({cmd:command}),
-														contentType:'application/json',
-														type:'POST'
+														cmd:command
 													}
 												).done(
 													function(data){
@@ -182,7 +179,6 @@
 
 									);
 									break;
-
 								default:
 									term.echo('Error: Invalid command');
 									break;

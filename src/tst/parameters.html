@@ -36,6 +36,8 @@
 			);
 		});
 		out.Println(JSON.stringify(parametersToJson()));
+		out.Println(request.RequestContent().String());
+		out.Println(request.RequestContent());//golang will call .String() for you
 	}catch(e){
 		out.Print(e.toString());
 	}

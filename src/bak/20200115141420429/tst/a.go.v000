@@ -1,0 +1,30 @@
+package main
+
+import (
+	_ "github.com/efjoubert/lnksys/db"
+	active "github.com/efjoubert/lnksys/iorw/active"
+	//lnks "github.com/efjoubert/lnksys/lnks"
+	network "github.com/efjoubert/lnksys/network"
+	os "os"
+	runtime "runtime"
+)
+
+func main() {
+	runtime.GOMAXPROCS(runtime.NumCPU())
+	network.MapRoots("/", "./", "resources/", "/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/resources", "apps/", "./apps")
+	network.DefaultServeHttp(os.Stdout, "GET", "/@LnkService.conf@.js", nil)
+	var d = make(chan bool, 1)
+	active.MapGlobal("SHUTDOWNENV", func() {
+		d <- true
+	})
+	var running = true
+	for running {
+		select {
+		case e := <-d:
+			if e {
+				running = false
+				break
+			}
+		}
+	}
+}

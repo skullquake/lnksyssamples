@@ -1,0 +1,24 @@
+<@
+	function printkeys(o){
+		Object.keys(o).forEach(function(k,kidx){
+			out.Print(k+":"+typeof(o[k]));
+			out.Print("\n");
+		});
+		out.Print('\n');
+
+	}
+
+	try{
+		out.Print('----------------------------------------\n');
+		out.Print('Database:\n');
+		out.Print('----------------------------------------\n');
+		var r=DBExecute(
+			"lnks",
+			"create table test (a integer);"
+			//,{}//if this is in db does statment then rollback
+		);
+		//printkeys(r);
+	}catch(e){
+		out.Print(e.toString());
+	}
+@>

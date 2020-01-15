@@ -8,22 +8,27 @@
 	<div id='editor' style="height:100%!important;"></div>
 	<script>
 		function save(editor,filename){
-			panel.setHeaderTitle(filename+' [Saving]');
+			//panel.setHeaderTitle(filename+' [Saving]');
 			editor.getValue()
 			window.terminal.echo("saving...")
-			$.get(
-				"/file.js?"+$.param({'cmd':'save','file':filename,'contents':editor.getValue()})
+			$.ajax(
+				"/filepost.js",
+				{
+					data:JSON.stringify({cmd:'save','file':filename,'contents':editor.getValue()}),
+					contentType:'application/json',
+					type:'POST'
+				}
 			).done(
 				$.proxy(function(data){
-					panel.setHeaderTitle(filename+' [Saving]');
+					//panel.setHeaderTitle(filename+' [Saving]');
 					window.terminal.echo("done")
 					window.terminal.echo(data)
 					//editor.setValue(data);
 				},this)
 			).fail(
-				function(e){
+				$.proxy(this,function(e){
 					window.terminal.echo("error")
-				}
+				})
 			);
 		};
 		function main(args){
@@ -222,8 +227,13 @@
 					}
 				);
 				if(args.file!=null){
-					$.get(
-						"/file.js?cmd=open&"+$.param({'file':args.file})
+					$.ajax(
+						"/filepost.js",
+						{
+							data:JSON.stringify({'cmd':'open','file':args.file}),
+							contentType:'application/json',
+							type:'POST'
+						}
 					).done(
 						$.proxy(function(data){
 							editor.setValue(data);
@@ -237,11 +247,7 @@
 				console.error('Failed to get parent node');
 			}
 		};
-	<@
-		//out.Println(save.toString()+';');
-		//out.Println(main.toString()+';');
-		out.Println("main("+JSON.stringify({file:Parameters().Parameter('file')[0]})+");");
-	@>
+		<@out.Println("main("+JSON.stringify({file:Parameters().Parameter('file')[0]})+");");@>
 	</script>
 </div>
 

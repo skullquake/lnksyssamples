@@ -8,7 +8,8 @@ DBNAM	= test
 DBUSRNAM= test
 DBUSRPAS= 1
 DBUSRROL= NOSUPERUSER
-
+BAKROT=./bak
+BAKDIR=$(BAKROT)/$(DIRNAM)
 $(BIN): $(SRC)
 	$(GO)\
 		build\
@@ -26,6 +27,7 @@ clean:
 	dbpsql	\
 	dbsize	\
 	dbdrop \
+	backup \
 	clean 
 run:
 	$(BIN)
@@ -83,3 +85,15 @@ dbsize:
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		$(DBNAM)
+backup:
+	$(eval DIRNAM= $(shell date +"%Y%m%d%H%M%S%3N"))
+	@printf "Backing up to $(DIRNAM)..."
+	@mkdir -p $(BAKDIR)
+	@mkdir -p $(BAKDIR)/res/js/lnksys
+	@cp -r ./*.go $(BAKDIR)
+	@cp -r ./*.html $(BAKDIR)
+	@cp -r ./*.js $(BAKDIR)
+	@cp -r ./tst $(BAKDIR)
+	@cp -r ./res/js/lnksys/* $(BAKDIR)/res/js/lnksys
+	@printf "done\n"
+	@#7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=1024m -ms=on $(BAKDIR).7z $(BAKDIR)
