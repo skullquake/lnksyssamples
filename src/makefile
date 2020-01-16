@@ -106,5 +106,8 @@ backup:
 	@cp -r ./*.js $(BAKDIR)
 	@cp -r ./tst $(BAKDIR)
 	@cp -r ./res/js/lnksys/* $(BAKDIR)/res/js/lnksys
+	@cp -r ./scr $(BAKDIR)
 	@printf "done\n"
 	@#7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=1024m -ms=on $(BAKDIR).7z $(BAKDIR)
+backupdbscr:
+	$(eval _= $(shell ./xas ls|while read FILE;do ./xas cat $$FILE>./scr/$$FILE;done))

@@ -7,4 +7,5 @@ BODY='{"cmd":"'$CMD'"}'
 curl\
 	-H "Content-type: application/json"\
 	--data "$BODY"\
-	$HOST
+	$HOST\
+	2> /dev/null
