@@ -40,7 +40,7 @@
 							"update file set content='"+postgres_real_escape_string(contents)+"'  where name='"+postgres_real_escape_string(file)+"'"
 							//Parameters()
 						);
-						out.Print(Parameters().Parameter("file")[0]+" saved");
+						out.Print(obj.file+" saved");
 						if(r!=undefined){
 						}else{
 							out.Print("Failed to query");
@@ -99,10 +99,11 @@
 				case "\r":
 					return "\\r";
 				//case "\"":
-				case "'":
 				//case "\\":
 				case "%":
 					return "\\"+char; // prepends a backslash to backslash, percent,
+				case "'":
+					return "''";
 				case "\\":
 					return "\\";
 				default:

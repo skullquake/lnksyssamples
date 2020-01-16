@@ -38,6 +38,32 @@
 				})
 			);
 		};
+		function exec(editor,filename){
+			window.terminal.echo("executing...")
+			var body={cmd:'dbeval '+filename};
+			$.ajax(
+				"/xaspost.js",
+				{
+					data:JSON.stringify(body),
+					contentType:'application/json',
+					type:'POST'
+				}
+			).done(
+				$.proxy(function(data){
+					//console.log(JSON.parse(data));
+					//panel.setHeaderTitle(filename+' [Saving]');
+					window.terminal.echo("done")
+					//window.terminal.echo(data)
+					lnksys.ui.feedback.process(data);
+					//editor.setValue(data);
+				},this)
+			).fail(
+				$.proxy(this,function(e){
+					window.terminal.echo("error")
+				})
+			);
+		};
+
 		function main(args){
 			window.terminal.echo("Opening "+args.file+"...");
 			args=args==null?{}:args;
@@ -141,6 +167,14 @@ editor.on("change", function() {
 								panel.close();
 							},this)
 						);
+						VimApi.defineEx(
+							'r',//a.str_cmd,
+							'r',//a.str_cmd,
+							$.proxy(function(cm,input){
+								exec(editor,args.file);
+							},this)
+						);
+
 					},this)
 				);
 				function hdlrsz(){

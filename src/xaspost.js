@@ -30,7 +30,7 @@
 	function feedbackAlert(a){
 		feedback={};
 		feedback['type']='js';
-		feedback.data="alert('"+a.replace("'","\\'")+"')";
+		feedback.data="lnksys.ui.info('"+a.replace("'","\\'")+"')";
 		out.Print(JSON.stringify(feedback));
 	}
 	function feedbackJS(a){

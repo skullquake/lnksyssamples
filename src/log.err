@@ -1,70 +1,51 @@
-test.js:start
-add resource:start
-add resource:end
-test.js:end
-test.js:start
-add resource:start
-add resource:end
-test.js:end
-test.js:start
-add resource:start
-add resource:end
-test.js:end
-test.js:start
-add resource:start
-add resource:end
-test.js:end
-
-
-
 panic: runtime error: slice bounds out of range [:3] with capacity 2 [recovered]
 	panic: runtime error: slice bounds out of range [:3] with capacity 2 [recovered]
 	panic: runtime error: slice bounds out of range [:3] with capacity 2
 
-goroutine 602 [running]:
-github.com/dop251/goja.(*Runtime).RunProgram.func1(0x4000403b38)
+goroutine 340 [running]:
+github.com/dop251/goja.(*Runtime).RunProgram.func1(0x40003e1b38)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/runtime.go:889 +0x98
-panic(0x556ad25980, 0x4000344300)
+panic(0x55823dd980, 0x400033a1c0)
 	/data/data/com.termux/files/usr/lib/go/src/runtime/panic.go:679 +0x18c
-github.com/dop251/goja.(*vm).try.func1(0x40000b3d40, 0x0, 0x40004039e0, 0x0, 0x0, 0x0, 0x4000403a38)
+github.com/dop251/goja.(*vm).try.func1(0x40000bc270, 0x0, 0x40003e19e0, 0x0, 0x0, 0x0, 0x40003e1a38)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:377 +0x2f8
-panic(0x556ad25980, 0x4000344300)
+panic(0x55823dd980, 0x400033a1c0)
 	/data/data/com.termux/files/usr/lib/go/src/runtime/panic.go:679 +0x18c
-github.com/efjoubert/lnksys/iorw/active.(*activeParser).PassivePrint(0x4000001800, 0x5, 0x7)
+github.com/efjoubert/lnksys/iorw/active.(*activeParser).PassivePrint(0x4000374c00, 0x5, 0x7)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:360 +0x310
-reflect.callMethod(0x4000489000, 0x4000403338, 0x4000403310)
+reflect.callMethod(0x40006b0e80, 0x40003e1338, 0x40003e1310)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/value.go:714 +0x18c
-reflect.methodValueCall(0x5, 0x7, 0x556ac73bc0, 0x40008742e8, 0x4000874440, 0x40008742e0, 0x1, 0x5568d8c4c4, 0x40006404b0, 0x4000489000, ...)
+reflect.methodValueCall(0x5, 0x7, 0x558232bbc0, 0x400003e2e8, 0x400003e670, 0x400003e2e0, 0x1, 0x55804444c4, 0x4000422240, 0x40006b0e80, ...)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/asm_arm64.s:35 +0x28
-reflect.Value.call(0x556ac89c20, 0x4000489000, 0x13, 0x55692627ed, 0x4, 0x40004474a0, 0x2, 0x2, 0x1, 0x5568f4671c, ...)
+reflect.Value.call(0x5582341c20, 0x40006b0e80, 0x13, 0x558091a7ed, 0x4, 0x4000357320, 0x2, 0x2, 0x1, 0x55805fe71c, ...)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/value.go:460 +0x494
-reflect.Value.Call(0x556ac89c20, 0x4000489000, 0x13, 0x40004474a0, 0x2, 0x2, 0x4000874440, 0x86, 0x0)
+reflect.Value.Call(0x5582341c20, 0x40006b0e80, 0x13, 0x4000357320, 0x2, 0x2, 0x400003e670, 0x86, 0x0)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/value.go:321 +0x7c
-github.com/dop251/goja.(*Runtime).wrapReflectFunc.func1(0x556ada22e0, 0x400063e2e0, 0x4000014020, 0x2, 0x1c, 0x4000489000, 0x1213)
+github.com/dop251/goja.(*Runtime).wrapReflectFunc.func1(0x558245a2e0, 0x400069e300, 0x40006c6020, 0x2, 0x1c, 0x40006b0e80, 0x1213)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/runtime.go:1183 +0x618
-github.com/dop251/goja.(*vm)._nativeCall(0x40000b3d40, 0x400010a580, 0x2)
+github.com/dop251/goja.(*vm)._nativeCall(0x40000bc270, 0x4000362840, 0x2)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:1839 +0x210
-github.com/dop251/goja.call.exec(0x4000000002, 0x40000b3d40)
+github.com/dop251/goja.call.exec(0x4000000002, 0x40000bc270)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:1823 +0x464
-github.com/dop251/goja.(*vm).run(0x40000b3d40)
+github.com/dop251/goja.(*vm).run(0x40000bc270)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:289 +0x94
-github.com/dop251/goja.(*vm).try(0x40000b3d40, 0x400082da48, 0x0)
+github.com/dop251/goja.(*vm).try(0x40000bc270, 0x40003e1a48, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:383 +0xd0
-github.com/dop251/goja.(*vm).runTry(0x40000b3d40, 0x400082da88)
+github.com/dop251/goja.(*vm).runTry(0x40000bc270, 0x40003e1a88)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:388 +0x3c
-github.com/dop251/goja.(*Runtime).RunProgram(0x400031f980, 0x400065d080, 0x0, 0x0, 0x0, 0x0)
+github.com/dop251/goja.(*Runtime).RunProgram(0x4000374d80, 0x400035d500, 0x0, 0x0, 0x0, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/runtime.go:900 +0x164
-github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit.func1(0x4000001800, 0x4000403d50)
+github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit.func1(0x4000374c00, 0x40003e1d50)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:210 +0x53c
-github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit(0x4000001800, 0x0, 0x0)
+github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit(0x4000374c00, 0x0, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:230 +0xf4
 github.com/efjoubert/lnksys/iorw/active.(*Active).ACommit(...)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:422
-github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest.func6(0x400047b200, 0x4000498a20, 0x0, 0x0)
+github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest.func6(0x4000470400, 0x4000324120, 0x0, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:275 +0x18c
-github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest(0x400047b200)
+github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest(0x4000470400)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:279 +0x3e4
-github.com/efjoubert/lnksys/network.ExecuteQueuedRequest.func1(0x400047b200)
+github.com/efjoubert/lnksys/network.ExecuteQueuedRequest.func1(0x4000470400)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:120 +0x20
 created by github.com/efjoubert/lnksys/network.ExecuteQueuedRequest
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:119 +0x34
