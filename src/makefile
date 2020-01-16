@@ -85,8 +85,13 @@ dbsize:
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		$(DBNAM)
-loadtest:
+loadtest_sjs:
+	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"help"}' http://localhost:1111/xaspost.js
+loadtest_db_query:
 	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"ls"}' http://localhost:1111/xaspost.js
+loadtest_db_exec:
+	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"ls"}' http://localhost:1111/xaspost.js
+
 postfiles:
 	_=$(shell ls ./scr|grep a)
 backup:
