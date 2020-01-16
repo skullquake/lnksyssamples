@@ -2,50 +2,50 @@ panic: runtime error: slice bounds out of range [:3] with capacity 2 [recovered]
 	panic: runtime error: slice bounds out of range [:3] with capacity 2 [recovered]
 	panic: runtime error: slice bounds out of range [:3] with capacity 2
 
-goroutine 340 [running]:
-github.com/dop251/goja.(*Runtime).RunProgram.func1(0x40003e1b38)
+goroutine 288 [running]:
+github.com/dop251/goja.(*Runtime).RunProgram.func1(0x4000439b38)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/runtime.go:889 +0x98
-panic(0x55823dd980, 0x400033a1c0)
+panic(0x556a0ec980, 0x4000686180)
 	/data/data/com.termux/files/usr/lib/go/src/runtime/panic.go:679 +0x18c
-github.com/dop251/goja.(*vm).try.func1(0x40000bc270, 0x0, 0x40003e19e0, 0x0, 0x0, 0x0, 0x40003e1a38)
+github.com/dop251/goja.(*vm).try.func1(0x400033a000, 0x0, 0x40004399e0, 0x0, 0x0, 0x0, 0x4000439a38)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:377 +0x2f8
-panic(0x55823dd980, 0x400033a1c0)
+panic(0x556a0ec980, 0x4000686180)
 	/data/data/com.termux/files/usr/lib/go/src/runtime/panic.go:679 +0x18c
-github.com/efjoubert/lnksys/iorw/active.(*activeParser).PassivePrint(0x4000374c00, 0x5, 0x7)
+github.com/efjoubert/lnksys/iorw/active.(*activeParser).PassivePrint(0x400008c780, 0x5, 0x7)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:360 +0x310
-reflect.callMethod(0x40006b0e80, 0x40003e1338, 0x40003e1310)
+reflect.callMethod(0x40007c7100, 0x4000439338, 0x4000439310)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/value.go:714 +0x18c
-reflect.methodValueCall(0x5, 0x7, 0x558232bbc0, 0x400003e2e8, 0x400003e670, 0x400003e2e0, 0x1, 0x55804444c4, 0x4000422240, 0x40006b0e80, ...)
+reflect.methodValueCall(0x5, 0x7, 0x556a03abc0, 0x40004721d8, 0x4000472398, 0x40004721d0, 0x1, 0x55681534c4, 0x4000611650, 0x40007c7100, ...)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/asm_arm64.s:35 +0x28
-reflect.Value.call(0x5582341c20, 0x40006b0e80, 0x13, 0x558091a7ed, 0x4, 0x4000357320, 0x2, 0x2, 0x1, 0x55805fe71c, ...)
+reflect.Value.call(0x556a050c20, 0x40007c7100, 0x13, 0x55686297ed, 0x4, 0x40007e1920, 0x2, 0x2, 0x1, 0x556830d71c, ...)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/value.go:460 +0x494
-reflect.Value.Call(0x5582341c20, 0x40006b0e80, 0x13, 0x4000357320, 0x2, 0x2, 0x400003e670, 0x86, 0x0)
+reflect.Value.Call(0x556a050c20, 0x40007c7100, 0x13, 0x40007e1920, 0x2, 0x2, 0x4000472398, 0x86, 0x0)
 	/data/data/com.termux/files/usr/lib/go/src/reflect/value.go:321 +0x7c
-github.com/dop251/goja.(*Runtime).wrapReflectFunc.func1(0x558245a2e0, 0x400069e300, 0x40006c6020, 0x2, 0x1c, 0x40006b0e80, 0x1213)
+github.com/dop251/goja.(*Runtime).wrapReflectFunc.func1(0x556a1692e0, 0x4000512480, 0x40007e6200, 0x2, 0x1c, 0x40007c7100, 0x1213)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/runtime.go:1183 +0x618
-github.com/dop251/goja.(*vm)._nativeCall(0x40000bc270, 0x4000362840, 0x2)
+github.com/dop251/goja.(*vm)._nativeCall(0x400033a000, 0x4000352c60, 0x2)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:1839 +0x210
-github.com/dop251/goja.call.exec(0x4000000002, 0x40000bc270)
+github.com/dop251/goja.call.exec(0x4000000002, 0x400033a000)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:1823 +0x464
-github.com/dop251/goja.(*vm).run(0x40000bc270)
+github.com/dop251/goja.(*vm).run(0x400033a000)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:289 +0x94
-github.com/dop251/goja.(*vm).try(0x40000bc270, 0x40003e1a48, 0x0)
+github.com/dop251/goja.(*vm).try(0x400033a000, 0x4000439a48, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:383 +0xd0
-github.com/dop251/goja.(*vm).runTry(0x40000bc270, 0x40003e1a88)
+github.com/dop251/goja.(*vm).runTry(0x400033a000, 0x4000439a88)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/vm.go:388 +0x3c
-github.com/dop251/goja.(*Runtime).RunProgram(0x4000374d80, 0x400035d500, 0x0, 0x0, 0x0, 0x0)
+github.com/dop251/goja.(*Runtime).RunProgram(0x400030ef00, 0x400010f980, 0x0, 0x0, 0x0, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/dop251/goja/runtime.go:900 +0x164
-github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit.func1(0x4000374c00, 0x40003e1d50)
+github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit.func1(0x400008c780, 0x4000439d50)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:210 +0x53c
-github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit(0x4000374c00, 0x0, 0x0)
+github.com/efjoubert/lnksys/iorw/active.(*activeParser).ACommit(0x400008c780, 0x0, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:230 +0xf4
 github.com/efjoubert/lnksys/iorw/active.(*Active).ACommit(...)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/iorw/active/active.go:422
-github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest.func6(0x4000470400, 0x4000324120, 0x0, 0x0)
+github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest.func6(0x4000328600, 0x4000408000, 0x0, 0x0)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:275 +0x18c
-github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest(0x4000470400)
+github.com/efjoubert/lnksys/network.(*Request).ExecuteRequest(0x4000328600)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:279 +0x3e4
-github.com/efjoubert/lnksys/network.ExecuteQueuedRequest.func1(0x4000470400)
+github.com/efjoubert/lnksys/network.ExecuteQueuedRequest.func1(0x4000328600)
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:120 +0x20
 created by github.com/efjoubert/lnksys/network.ExecuteQueuedRequest
 	/data/data/com.termux/files/home/go/src/github.com/efjoubert/lnksys/network/request.go:119 +0x34

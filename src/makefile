@@ -10,6 +10,7 @@ DBUSRPAS= 1
 DBUSRROL= NOSUPERUSER
 BAKROT=./bak
 BAKDIR=$(BAKROT)/$(DIRNAM)
+ERRLOG=./log/err.log
 $(BIN): $(SRC)
 	$(GO)\
 		build\
@@ -30,7 +31,8 @@ clean:
 	backup \
 	clean 
 run:
-	$(BIN)
+	$(eval DIRNAM=$(shell date +"%Y%m%d%H%M%S%3N"))
+	$(BIN) 2> ./log/err_$(DIRNAM).log
 dbmk:
 	initdb \
 		$(DBPATH)
