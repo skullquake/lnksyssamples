@@ -1,8 +1,14 @@
 <div style="height:100%">
 	<style>
 		#editor{
-			max-height:100%!important;
+			position:absolute;
+			top:0px;
+			right:0px;
+			bottom:0px;
+			left:0px;
+			/* max-height:100%!important; */
 			height:100%!important;
+			max-height:100%!important;
 		}
 		input, select { font-size: 100%; }
 	</style>
@@ -51,13 +57,52 @@
 				;
 				panel.setHeaderTitle(args.file+"[Opening...]");
 				window.panel=panel;
+				window.parentNode=parentNode;
 				window.terminal.focus();
 
 				//setup ace
 				ace.config.set('basePath','/res/js/ace');
-				//$(parentNode).append('<p>Test</p>');
 				var divEditor=$(parentNode).find('#editor')[0];
 				var editor=ace.edit(divEditor);
+				/*
+    var heightUpdateFunction = function() {
+        // http://stackoverflow.com/questions/11584061/
+        var newHeight =
+                  editor.getSession().getScreenLength()
+                  * editor.renderer.lineHeight
+                  + editor.renderer.scrollBar.getWidth();
+
+        $('#editor').height(newHeight.toString() + "px");
+        $('#editor-section').height(newHeight.toString() + "px");
+
+        // This call is required for the editor to fix all of
+        // its inner structure for adapting to a change in size
+        editor.resize();
+    };
+
+    // Set initial size to match initial content
+    heightUpdateFunction();
+
+    // Whenever a change happens inside the ACE editor, update
+    // the size again
+    editor.getSession().on('change', heightUpdateFunction);
+    */
+/*
+//var editor = ace.edit("editor");                   // the editor object
+//var editorDiv = document.getElementById("editor");     // its container
+var editorDiv = parentNode;//document.getElementById("editor");     // its container
+var doc = editor.getSession().getDocument();  // a reference to the doc
+
+editor.on("change", function() {
+    var lineHeight = editor.renderer.lineHeight;
+    editorDiv.style.height = lineHeight * doc.getLength() + "px";
+    editor.resize();
+});
+*/
+editor.on("change", function() {
+	console.log('edtchg');
+});
+
 				editor.setKeyboardHandler("ace/keyboard/vim");
 				ace.config.loadModule(
 					'ace/keyboard/vim',
@@ -98,13 +143,18 @@
 						);
 					},this)
 				);
-				editor.setOptions(
-					{
-						//theme:'ace/theme/tomorrow_night'
-						maxLines:200,
-						minLines:200
-					}
-				);
+				function hdlrsz(){
+					var numLines=Math.floor($(panel.content).height()/$(editor.container).find(".ace_gutter-cell").height());;
+					console.log(numLines);
+					editor.setOptions(
+						{
+							maxLines:numLines,//Math.floor($(panel).height()/editor.getFontSize()),
+							minLines:numLines,//Math.floor($(panel).height()/editor.getFontSize())
+						}
+					);
+				}
+				//panel.options.dragit.stop.push($.proxy(hdlrsz,this));
+				panel.options.resizeit.stop.push($.proxy(hdlrsz,this));
 				editor.setTheme("ace/theme/monokai");
 
 				//terminal issue: unfocus
@@ -244,11 +294,12 @@
 						},this)
 					);
 				}
+			       window.editor=editor;
 			}else{
 				console.error('Failed to get parent node');
 			}
 		};
-		<@out.Println("main("+JSON.stringify({file:Parameters().Parameter('file')[0]})+");");@>
+		<@ out.Println("main("+JSON.stringify({file:Parameters().Parameter('file')[0]})+");"); @>
 	</script>
 </div>
 

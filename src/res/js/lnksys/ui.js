@@ -8,6 +8,15 @@ lnksys.ui.open=function(url,title,formparams){
 	title=title==null?'':title;
 	formparams=formparams==null?{}:formparams;
 	jsPanel.create({
+		/*
+		resizeit:{//dragit
+			//disable:true
+			start:function(){console.log('a')},
+			resize:function(){console.log('b')},
+			stop:function(){console.log('c')}
+		},
+		*/
+
 		theme: {
 			bgPanel: '#222222',
 			bgContent: '#111111',
@@ -22,7 +31,10 @@ lnksys.ui.open=function(url,title,formparams){
 		},
 		position: 'center-top 0 100',
 		animateIn: 'jsPanelFadeIn',
+		//onwindowresize:true,
 		headerTitle: title,//'Title',
+		/*
+		*/
 		contentAjax: {
 			url: url,
 			evalscripttags: true,

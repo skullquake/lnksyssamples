@@ -54,7 +54,12 @@
 	function exec(){
 		if(cmd.length>0){
 			if(cmdfn[cmd]==null){
-				out.Println("Command not found: "+cmd);
+				try{
+					cmdfn['dbeval']('dbeval',[cmd]);
+				}catch(e){
+					out.Println(e.toString());
+				}
+				//out.Println("Command not found: "+cmd);
 			}else{
 				cmdfn[cmd](cmd,args)
 			}
@@ -322,6 +327,7 @@ AND\n\
 				}
 			},
 			'ls':function(cmd,args){
+				CPrintln((new Date().getTime())+': ls');
 				switch(args[0]){
 					case '--help':
 						out.Println("Shows files");
@@ -387,13 +393,14 @@ AND\n\
 						out.Println("Evaluates vfs item server side");
 						break;
 					default:
-						out.Println("Executing "+args[0]);
+						//out.Println("Executing "+args[0]);
 						try{
 							var r=DBQuery(
 								"lnks",
 								"SELECT content FROM file where name='"+args[0]+"' LIMIT 1",
 								{}
 							);
+							var nscr=0;
 							if(r!=undefined){
 								while(r.Next()){
 									r.Data().forEach(
@@ -401,6 +408,10 @@ AND\n\
 											eval(d);
 										}
 									);
+									nscr++;
+								}
+								if(nscr==0){
+									out.Println("Script "+args[0]+" not found");
 								}
 							}else{
 								out.Print("Failed to query");

@@ -85,6 +85,10 @@ dbsize:
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		$(DBNAM)
+loadtest:
+	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"ls"}' http://localhost:1111/xaspost.js
+postfiles:
+	_=$(shell ls ./scr|grep a)
 backup:
 	$(eval DIRNAM= $(shell date +"%Y%m%d%H%M%S%3N"))
 	@printf "Backing up to $(DIRNAM)..."
