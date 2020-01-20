@@ -37,7 +37,7 @@ clean:
 run: $(BIN) ./db  dbinit ./db//postmaster.pid
 	mkdir -p ./log
 	$(eval DIRNAM=$(shell date +"%Y%m%d%H%M%S%3N"))
-	$(BIN) 2> ./log/err_$(DIRNAM).log
+	$(BIN) 2> ./log/err/err_$(DIRNAM).log
 dbmk: 
 	initdb \
 		$(DBPATH)
@@ -181,7 +181,7 @@ tst_json:
 		-H "hdrBaz: hdrQux"\
 		--data '{"jsonFoo":"jsonBar"}'\
 		"http://localhost:$(SRVPORT)/tst/parameters.html"
-lodtst_all:lodtst_goja lodtst_addresource lodtst_formdata lodtst_sjs lodtst_db_query lodtst_db_exec
+lodtst_all:lodtst_goja lodtst_addresource lodtst_formdata lodtst_db_query lodtst_db_exec
 	echo $@
 $(eval TIMESTAMP= $(shell date +$(LOGFMT)))
 $(eval REPORTDIR= ./log/lodtst/$(TIMESTAMP))
@@ -220,20 +220,6 @@ lodtst_formdata: lodtst_dir
 		-H "Content-type: multipart/form-data; boundary=1234567890"\
 		-b 'foo=bar;\r\nbaz=qux\r\n'\
 		http://localhost:$(SRVPORT)/tst/parameters.html\
-		-o j\
-		-p r\
-		|jq '.'\
-		> $(REPORTFILE)
-	@cat $(REPORTFILE)
-lodtst_sjs: lodtst_dir
-	echo $@
-	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
-	@bombardier\
-		-d $(LODTSTDUR)\
-		-m POST\
-		-H "Content-type: application/json"\
-		-b '{"cmd":"help"}'\
-		http://localhost:$(SRVPORT)/xaspost.js\
 		-o j\
 		-p r\
 		|jq '.'\
