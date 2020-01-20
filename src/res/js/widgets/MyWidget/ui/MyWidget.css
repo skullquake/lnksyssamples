@@ -1,0 +1,7 @@
+.MyWidget{
+	background:rgba(0,0,0,0.2);
+	padding:4px;
+}
+.MyWidget *{
+	color:#FFFFFF;
+}

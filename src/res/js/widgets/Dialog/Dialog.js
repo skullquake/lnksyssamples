@@ -1,0 +1,81 @@
+		/*<link rel="stylesheet" href="./lib/jspanel/jspanel.min.css"></link>*/
+define(
+	[
+		"dojo/_base/declare",
+		'jQuery',
+		'jspanel',
+		"dojo/html",
+		"dojo/_base/fx",
+		"dojo/_base/lang",
+		"dojo/dom-style",
+		"dojo/mouse",
+		"dojo/on",
+		"dijit/_WidgetBase",
+		"dojo/dom-construct",
+		"xstyle/css!/lib/jspanel/4.5.0/jspanel.min.css",
+		"dijit/_TemplatedMixin"
+	],
+	function(
+		declare,
+		_jquery,
+		_jspanel,
+		html,
+		baseFx,
+		lang,
+		domStyle,
+		mouse,
+		on,
+		_WidgetBase,
+		domConstruct,
+		jspanel_min_css,
+		_TemplatedMixin
+	){
+		'use strict'
+		//$=jquery.noConflict(true);
+		return declare(
+			'Dialog',
+			[
+				_WidgetBase,
+			],
+			{
+				panel:null,
+				constructor:function(){
+				},
+				postCreate:function(){
+					this.panel=jsPanel.create(
+						{
+							closeOnEscape:true,
+							theme:"blue",
+							onclosed: dojo.hitch(this,function(panel){
+								this.panel=null;
+								this.destroy();
+							})
+						}
+					);
+					$(this.panel).hide();
+				},
+				destroy:function(){
+					if(this.panel!=null)
+					this.panel.close();
+				},
+				show:function(msg,lvl){
+					$(this.panel).show();
+				},
+				hide:function(msg,lvl){
+					$(this.panel).hide();
+				},
+				setContent:function(msg){
+					$(this.panel)
+						.find('.jsPanel-content')
+						.css(
+							{
+								'padding':'8px'
+							}
+						)
+						.html(msg)
+				}
+
+			}
+		);
+	}
+);

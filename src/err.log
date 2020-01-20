@@ -1,0 +1,56 @@
+"{\"cmd\":\"reload\"}"
+{"cmd":"reload"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"reload\"}"
+{"cmd":"reload"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"reload\"}"
+{"cmd":"reload"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"reload\"}"
+{"cmd":"reload"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"reload\"}"
+{"cmd":"reload"}
+"{\"cmd\":\"opendb notes.txt\"}"
+{"cmd":"opendb notes.txt"}
+"{\"cmd\":\"closeall\"}"
+{"cmd":"closeall"}
+"{\"cmd\":\"opendb test.html\"}"
+{"cmd":"opendb test.html"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}
+"{\"cmd\":\"opendb form.html\"}"
+{"cmd":"opendb form.html"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}
+"{\"cmd\":\"vim form.html\"}"
+{"cmd":"vim form.html"}
+"{\"cmd\":\"opendb form.html\"}"
+{"cmd":"opendb form.html"}
+"{\"cmd\":\"opendb form.html\"}"
+{"cmd":"opendb form.html"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}
+"{\"cmd\":\"touch test.html\"}"
+{"cmd":"touch test.html"}
+"{\"cmd\":\"vim test.html\"}"
+{"cmd":"vim test.html"}
+"{\"cmd\":\"opendb test.html\"}"
+{"cmd":"opendb test.html"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}
+"{\"cmd\":\"ls\"}"
+{"cmd":"ls"}

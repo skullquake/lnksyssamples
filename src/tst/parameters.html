@@ -1,12 +1,17 @@
 <@
+	CPrintln("parameters");
 	function printkeys(o){
-		Object.keys(o).forEach(function(k,kidx){
-			out.Print(k+":"+typeof(o[k]));
-			out.Print("\n");
-		});
+		if(o!=null){
+			out.Println("\ttype: "+typeof(o));
+			Object.keys(o).forEach(function(k,kidx){
+				out.Print('\t'+k+":"+typeof(o[k]));
+				out.Print("\n");
+			});
+		}else{
+			out.Println("NULL!");
+		}
 		out.Print('\n');
 	}
-
 	function parametersToJson(o){
 		var ret={}
 		Parameters().StandardKeys().forEach(function(k,kidx){
@@ -28,6 +33,7 @@
 		//printkeys(Parameters());
 		//printkeys(Parameters().FileKeys());//0,1,2
 		//printkeys(Parameters().StandardKeys());//0,1,2
+		/*
 		Parameters().StandardKeys().forEach(function(k,kidx){
 			out.Print(
 				k+':'+
@@ -35,9 +41,157 @@
 				'\n'
 			);
 		});
-		out.Println(JSON.stringify(parametersToJson()));
-		out.Println(request.RequestContent().String());
-		out.Println(request.RequestContent());//golang will call .String() for you
+		*/
+		//out.Println(JSON.stringify(parametersToJson()));
+		//out.Println(request.RequestContent().String());
+		//out.Println(request.RequestContent());//golang will call .String() for you
+		//printkeys(request)
+		//out.Println(JSON.stringify(parametersToJson()));
+		//parameter addition
+		//Parameters().SetParameter('asdf',false,'asdf');
+		//out.Println(JSON.stringify(parametersToJson()));
+		out.Println('------');
+		Parameters().FileKeys().forEach(function(a,b){
+			out.Println(a);
+		})
+		//out.Println(typeof(Parameters().FileParameter()))
+		out.Println("Parameters().ContainsFileParameter():"+Parameters().ContainsFileParameter());
+		out.Println("request.RequestContent().Size():"+request.RequestContent().Size())
+		out.Println("request.RequestContent().String():"+request.RequestContent().String())
+		//out.Println(request.RequestContent().Size())
+		//printkeys(typeof(Parameters().FileParameter()))
+		out.Println("request:");
+		printkeys(request)
+		out.Println("request.Active:");
+		printkeys(request.Active)
+		out.Println("request.ACommit:");
+		printkeys(request.ACommit)
+		out.Println("request.APrint:");
+		printkeys(request.APrint)
+		out.Println("request.APrintln:");
+		printkeys(request.APrintln)
+		out.Println("request.AddResource:");
+		printkeys(request.AddResource)
+		out.Println("request.Close:");
+		printkeys(request.Close)
+		out.Println("request.Db:");
+		printkeys(request.Db)
+		out.Println("request.DbQuery:");
+		printkeys(request.DbQuery)
+		out.Println("request.ExecuteRequest:");
+		printkeys(request.ExecuteRequest)
+		out.Println("request.Interruped:");
+		printkeys(request.Interruped)
+		out.Println("request.IsActiveContent:");
+		printkeys(request.IsActiveContent)
+		//out.Println(request.IsActiveContent())
+		out.Println("----------------------------------------");
+		out.Println("request.NewResource:");
+		out.Println("----------------------------------------");
+		printkeys(request.NewResource)
+		out.Println("request.Parameters:");
+		printkeys(request.Parameters)
+		out.Println("request.PassivePrint:");
+		printkeys(request.PassivePrint)
+		out.Println("request.PopulateParameters:");
+		printkeys(request.PopulateParameters)
+		out.Println("request.Print:");
+		printkeys(request.Print)
+		out.Println("request.Println:");
+		printkeys(request.Println)
+		out.Println("request.Read:");
+		printkeys(request.Read)
+		out.Println("request.ReadRune:");
+		printkeys(request.ReadRune)
+		out.Println("request.RequestContent:");
+		printkeys(request.RequestContent)
+		out.Println("request.Reset:");
+		printkeys(request.Reset)
+		out.Println("request.Seek:");
+		printkeys(request.Seek)
+		out.Println("request.ServeHTTP:");
+		printkeys(request.ServeHTTP)
+		out.Println("request.Size:");
+		printkeys(request.Size)
+		out.Println("request.Write:");
+		printkeys(request.Write)
+		out.Println("request.WriteTo:");
+		printkeys(request.WriteTo)
+		out.Println("Parameters():");
+		printkeys(Parameters())
+		out.Println("Parameters().type:");
+		printkeys(Parameters().type)
+		out.Println("Parameters().CleanupParameters:");
+		printkeys(Parameters().CleanupParameters)
+		/*
+		out.Println("Parameters().:");
+		printkeys(Parameters().)
+ContainsFileParameter:function
+ContainsParameter:function
+FileKeys:function
+FileParameter:function
+Parameter:function
+RemoveParameter:function
+SetFileParameter:function
+SetParameter:function
+StandardKeys:function
+StringParameter:function
+
+		*/
+		printkeys(this);
+		/*
+type: function
+type: object
+out:object
+CPrint:function
+CPrintln:function
+_atvprsr:object
+DBMS:function
+Parameters:function
+DBQuery:function
+request:object
+SHUTDOWNENV:function
+SHUTDOWNHOST:function
+SHUTDOWNLISTENER:function
+DBMSRegister:function
+InvokeListener:function
+MAPRoots:function
+MAPActiveExtensions:function
+DBExecute:function
+		*/
+		//SHUTDOWNENV();
+		//SHUTDOWNHOST();
+		//printkeys(DBMS());//null
+		out.Println('-----')
+		printkeys(_atvprsr)
+/*
+type: object
+ACommit:function
+APrint:function
+Close:function
+PassivePrint:function
+Print:function
+Reset:function
+*/
+		out.Println('-----')
+		printkeys(out)
+/*
+type: object
+ACommit:function
+APrint:function
+APrintln:function
+Close:function
+PassivePrint:function
+Print:function
+Println:function
+Reset:function
+
+*/
+		out.APrint('CPrintln("0");')
+		out.APrintln('CPrintln("1");')
+		out.Print('CPrintln("2");')
+		out.Println('CPrintln("3");')
+		out.PassivePrint('CPrintln("4");')
 	}catch(e){
 		out.Print(e.toString());
 	}

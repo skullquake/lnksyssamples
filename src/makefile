@@ -1,8 +1,9 @@
 GO=go
 SRC=./a.go
 BIN=./a
+SRVPORT=1112
+DBPORT	= 6001
 DBPATH	= ./db
-DBPORT	= 6000
 DBHOST	= 127.0.0.1
 DBNAM	= test
 DBUSRNAM= test
@@ -11,6 +12,8 @@ DBUSRROL= NOSUPERUSER
 BAKROT=./bak
 BAKDIR=$(BAKROT)/$(DIRNAM)
 ERRLOG=./log/err.log
+LOGFMT="%Y%m%d_%H%M_%S_%3N"
+LODTSTDUR=10s
 $(BIN): $(SRC)
 	$(GO)\
 		build\
@@ -32,7 +35,7 @@ clean:
 	clean 
 run:
 	$(eval DIRNAM=$(shell date +"%Y%m%d%H%M%S%3N"))
-	$(BIN) 2> ./log/err_$(DIRNAM).log
+	$(BIN) 2> ./log/err/err_$(DIRNAM).log
 dbmk:
 	initdb \
 		$(DBPATH)
@@ -87,13 +90,170 @@ dbsize:
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		$(DBNAM)
-loadtest_sjs:
-	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"help"}' http://localhost:1111/xaspost.js
-loadtest_db_query:
-	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"ls"}' http://localhost:1111/xaspost.js
-loadtest_db_exec:
-	@bombardier -d 30s -m POST -H "Content-type: application/json" -b '{"cmd":"ls"}' http://localhost:1111/xaspost.js
+tst_server:
+	@#no action
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"foo":"getSessionData","params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#invalid action type
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":1,"params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#no params
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"getSessionData"}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#invalid params type
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"getSessionData","params":"invalid"}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#nonexistent action
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"doesNotExist","params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#create
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"create","params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#update
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"create","params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#get
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"get","params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#getSession
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"getSession","params":{}}'\
+		http://localhost:$(SRVPORT)/server.js
+	@#getSessionData no token
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"getSessionData","params":{"foo":"bar"}}'\
+		http://localhost:$(SRVPORT)/server.js
 
+	@#getSessionData no token
+	@curl\
+		-X POST\
+		-H "Content-type: application/json"\
+		-d '{"action":"getSessionData","params":{"token":1234}}'\
+		http://localhost:$(SRVPORT)/server.js
+
+tst_formdata:
+	@curl\
+		-X POST\
+		-F 'foo=bar'\
+		"http://localhost:$(SRVPORT)/tst/parameters.html?baz=qux"
+tst_fileupload:
+	@curl\
+		-F "f0=@./index.html" \
+		-F "f1=@./index.html" \
+		-F "f2=@./index.html" \
+		-F "f3=@./index.html" \
+		"http://localhost:$(SRVPORT)/tst/parameters.html"
+tst_json:
+	@curl\
+		-H "Content-type: application/json"\
+		-H "hdrFoo: hdrBar"\
+		-H "hdrBaz: hdrQux"\
+		--data '{"jsonFoo":"jsonBar"}'\
+		"http://localhost:$(SRVPORT)/tst/parameters.html"
+lodtst_all:lodtst_server lodtst_formdata lodtst_sjs lodtst_db_query lodtst_db_exec lodtst_server
+	echo $@
+$(eval TIMESTAMP= $(shell date +$(LOGFMT)))
+$(eval REPORTDIR= ./log/lodtst/$(TIMESTAMP))
+lodtst_dir:
+	@mkdir -p $(REPORTDIR)
+lodtst_server: lodtst_dir
+	echo $@
+	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
+	@bombardier\
+		-m POST\
+		-H "Content-type: application/json"\
+		-b '{"action":"get","params":{}}'\
+		-d $(LODTSTDUR)\
+		http://localhost:$(SRVPORT)/server.js\
+		-o j\
+		-p r\
+		|jq '.'\
+		> $(REPORTFILE)
+	@cat $(REPORTFILE)
+lodtst_formdata: lodtst_dir
+	echo $@
+	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
+	@bombardier\
+		-d $(LODTSTDUR)\
+		-m POST\
+		-H "Content-type: multipart/form-data; boundary=1234567890"\
+		-b 'foo=bar;\r\nbaz=qux\r\n'\
+		http://localhost:$(SRVPORT)/tst/parameters.html\
+		-o j\
+		-p r\
+		|jq '.'\
+		> $(REPORTFILE)
+	@cat $(REPORTFILE)
+lodtst_sjs: lodtst_dir
+	echo $@
+	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
+	@bombardier\
+		-d $(LODTSTDUR)\
+		-m POST\
+		-H "Content-type: application/json"\
+		-b '{"cmd":"help"}'\
+		http://localhost:$(SRVPORT)/xaspost.js\
+		-o j\
+		-p r\
+		|jq '.'\
+		> $(REPORTFILE)
+	@cat $(REPORTFILE)
+lodtst_db_query: lodtst_dir
+	echo $@
+	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
+	@bombardier\
+		-d $(LODTSTDUR)\
+		-m POST\
+		-H "Content-type: application/json"\
+		-b '{"cmd":"ls"}'\
+		http://localhost:$(SRVPORT)/xaspost.js\
+		-o j\
+		-p r\
+		|jq '.'\
+		> $(REPORTFILE)
+	@cat $(REPORTFILE)
+lodtst_db_exec: lodtst_dir
+	echo $@
+	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
+	@bombardier\
+		-d $(LODTSTDUR)\
+		-m POST\
+		-H "Content-type: application/json"\
+		-b '{"cmd":"ls"}'\
+		http://localhost:$(SRVPORT)/xaspost.js\
+		-o j\
+		-p r\
+		|jq '.'\
+		> $(REPORTFILE)
+	@cat $(REPORTFILE)
 postfiles:
 	_=$(shell ls ./scr|grep a)
 backup:

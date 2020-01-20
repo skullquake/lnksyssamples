@@ -1,0 +1,53 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "POST",
+    "url": "http://localhost:1112/server.js",
+    "headers": [
+      {
+        "key": "Content-type",
+        "value": "application/json"
+      }
+    ],
+    "body": "{\"action\":\"get\",\"params\":{}}",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 1295521,
+    "bytesWritten": 676704,
+    "timeTakenSeconds": 10.110193838,
+    "req1xx": 0,
+    "req2xx": 4451,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 1,
+    "errors": [
+      {
+        "description": "read tcp 127.0.0.1:35069->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      }
+    ],
+    "latency": {
+      "mean": 282683.16464510333,
+      "stddev": 247804.9851024436,
+      "max": 2001072
+    },
+    "rps": {
+      "mean": 435.1595162380705,
+      "stddev": 243.40156717304626,
+      "max": 1397.6530609800025,
+      "percentiles": {
+        "50": 400.365333,
+        "75": 556.585097,
+        "90": 750.82433,
+        "95": 900.619176,
+        "99": 1104.621016
+      }
+    }
+  }
+}

@@ -1,0 +1,3 @@
+<@
+CPrintln('asdf');
+@>

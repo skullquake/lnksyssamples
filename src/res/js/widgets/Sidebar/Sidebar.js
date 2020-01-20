@@ -1,0 +1,185 @@
+define(
+	[
+		"dojo/_base/declare",
+		"dojo/html",
+		"dojo/_base/fx",
+		"dojo/_base/lang",
+		"dojo/dom-style",
+		"dojo/mouse",
+		"dojo/on",
+		"dijit/_WidgetBase",
+		"dijit/_TemplatedMixin",
+		"dojo/dom-construct",
+		"dojo/request",
+		'jQuery',
+		'jspanel',
+		'ace',
+		"xstyle/css!./templates/Sidebar.css",
+		"dojo/text!./templates/Sidebar.html"
+	],
+	function(
+		declare,
+		html,
+		baseFx,
+		lang,
+		domStyle,
+		mouse,
+		on,
+		_WidgetBase,
+		_TemplatedMixin,
+		domConstruct,
+		request,
+		_jquery,
+		_jspanel,
+		_ace,
+		//jspanel,
+		css_Sidebar,
+		template
+	){
+		'use strict'
+		//$=jquery.noConflict(true);
+		return declare(
+			[
+				_WidgetBase,
+				_TemplatedMixin
+			],
+			{
+				templateString:template,
+				items:null,
+				constructor:function(){
+				},
+				postCreate:function(){
+
+				},
+				getItems:function(){
+					request(
+						"./res/menuitems.json?cachebust="+(new Date()).getTime(),
+						{
+							/*
+							data: {
+								color: "blue",
+								answer: 42
+							},
+							*/
+							headers: {
+								"X-Something": "A value"
+							},
+							handleAs:'json'
+						}
+					).then(
+						dojo.hitch(this,function(ret){
+							this.items=ret.items;
+							this.buildMenu();
+						}),
+						dojo.hitch(this,function(err){
+							this.showMessage("An error occurred: " + err);
+						})
+					);
+				},
+				buildMenu:function(){
+					this.items.forEach(
+						dojo.hitch(
+							this,
+							function(a,b){
+								var nav_item=domConstruct.create(
+									'li',
+									{
+										'class':'nav-item'
+									}
+								);
+								var nav_link=domConstruct.create(
+									'a',
+									{
+										'class':'nav-link'
+									}
+								);
+								domConstruct.place(
+									nav_link,
+									nav_item
+								);
+								var fa=domConstruct.create(
+									'i',
+									{
+										'class':'fas fa-fw fa-'+a.icon
+									}
+								);
+								domConstruct.place(
+									fa,
+									nav_link
+								);
+								var span=domConstruct.create(
+									'span',
+									{
+										'class':'',
+										'innerHTML':a.text
+									}
+								);
+								domConstruct.place(
+									span,
+									nav_link
+								);
+								if(
+									a.action!=null&&
+									a.action.type!=null&&
+									a.action.type=="showmessage"
+								){
+									on(
+										nav_item,
+										"click",
+										dojo.hitch(this,function(){
+											this.showMessage(
+												a.action.data,
+												a.action.level
+											)
+										})
+									);
+								}
+								//handle.remove();
+								domConstruct.place(
+									nav_item,
+									this.domNode
+								);
+							}
+						)
+					);
+				},
+				showMessage:function(msg,lvl){
+					jsPanel.create(
+						{
+							closeOnEscape:true,
+							theme:"blue",
+							headerTitle:lvl==null?"Message":lvl,
+							callback:dojo.hitch(this,function(panel){
+								$(panel)
+								.find('.jsPanel-content')
+								.css(
+									{
+										'padding':'8px'
+									}
+								)
+								.append(
+								$('<pre></pre>')
+									.text(msg)
+								)
+								;
+							})
+						}
+					);
+
+				}
+			}
+		);
+	}
+);
+/*
+			"ace":"/lib/ace/ace",
+			"xtermjs":"/lib/xterm/xterm",
+			"jqueryterminal":"/lib/jquery.terminal/2.4.1/js/jquery.terminal",
+			"jquerytoast":"/lib/jquery.toast/1.3.2/jquery.toast.min",
+			"jquerygrowl":"/lib/jquery.growl/1.3.5/jquery.growl",
+			"jexcel":"/lib/jexcel/2.0.0/js/jquery.jexcel",
+			"jquery_csv":"/lib/jquery-csv/0.8.3/jquery.csv.min",
+			"babylonjs":"/lib/babylonjs/babylon"
+		},
+
+ */
