@@ -33,10 +33,12 @@ clean:
 	dbdrop \
 	backup \
 	clean 
-run:
+
+run: $(BIN) ./db  dbinit ./db//postmaster.pid
+	mkdir -p ./log
 	$(eval DIRNAM=$(shell date +"%Y%m%d%H%M%S%3N"))
-	$(BIN) 2> ./log/err/err_$(DIRNAM).log
-dbmk:
+	$(BIN) 2> ./log/err_$(DIRNAM).log
+dbmk: 
 	initdb \
 		$(DBPATH)
 	cp ./res/db/* $(DBPATH)
@@ -46,16 +48,16 @@ dbdrop:
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		postgres
-dbinit:
+dbinit:dbstart
 	printf "create database $(DBNAM);CREATE USER $(DBUSRNAM) WITH PASSWORD '$(DBUSRNAM)' CREATEDB;ALTER USER $(DBUSRNAM) WITH $(DBUSRROL);GRANT ALL PRIVILEGES ON SCHEMA public TO $(DBUSRNAM);"|\
 		psql \
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		postgres
-dbrm:
+dbrm:./db
 	rm \
 		-r $(DBPATH)
-dbstart:
+dbstart:./db
 	pg_ctl \
 		-D $(DBPATH) \
 		-o "-p $(DBPORT)" \
@@ -90,6 +92,7 @@ dbsize:
 		-h $(DBHOST) \
 		-p $(DBPORT) \
 		$(DBNAM)
+
 tst_server:
 	@#no action
 	@curl\
@@ -178,21 +181,31 @@ tst_json:
 		-H "hdrBaz: hdrQux"\
 		--data '{"jsonFoo":"jsonBar"}'\
 		"http://localhost:$(SRVPORT)/tst/parameters.html"
-lodtst_all:lodtst_server lodtst_formdata lodtst_sjs lodtst_db_query lodtst_db_exec lodtst_server
+lodtst_all:lodtst_goja lodtst_addresource lodtst_formdata lodtst_sjs lodtst_db_query lodtst_db_exec
 	echo $@
 $(eval TIMESTAMP= $(shell date +$(LOGFMT)))
 $(eval REPORTDIR= ./log/lodtst/$(TIMESTAMP))
 lodtst_dir:
 	@mkdir -p $(REPORTDIR)
-lodtst_server: lodtst_dir
+lodtst_goja: lodtst_dir
 	echo $@
 	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
 	@bombardier\
-		-m POST\
-		-H "Content-type: application/json"\
-		-b '{"action":"get","params":{}}'\
+		-m GET\
 		-d $(LODTSTDUR)\
-		http://localhost:$(SRVPORT)/server.js\
+		http://localhost:$(SRVPORT)/tst/lod/goja.js\
+		-o j\
+		-p r\
+		|jq '.'\
+		> $(REPORTFILE)
+	@cat $(REPORTFILE)
+lodtst_addresource: lodtst_dir
+	echo $@
+	$(eval REPORTFILE= $(REPORTDIR)/$@.json)
+	@bombardier\
+		-m GET\
+		-d $(LODTSTDUR)\
+		http://localhost:$(SRVPORT)/tst/lod/fib.js\
 		-o j\
 		-p r\
 		|jq '.'\
@@ -271,3 +284,6 @@ backup:
 	@#7z a -t7z -m0=lzma2 -mx=9 -mfb=64 -md=1024m -ms=on $(BAKDIR).7z $(BAKDIR)
 backupdbscr:
 	$(eval _= $(shell ./xas ls|while read FILE;do ./xas cat $$FILE>./scr/$$FILE;done))
+
+
+

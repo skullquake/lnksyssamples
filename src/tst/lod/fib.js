@@ -52,6 +52,6 @@ if(idx<100){
 	Parameters().SetParameter('a',true,b)
 	Parameters().SetParameter('b',true,c)
 	Parameters().SetParameter('idx',true,idx)
-	request.AddResource("/fib.js")
+	request.AddResource("/tst/lod/fib.js")
 }
 @>
