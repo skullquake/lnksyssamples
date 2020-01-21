@@ -1,0 +1,543 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "GET",
+    "url": "http://localhost:1112/tst/lod/fib.js",
+    "body": "",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 280022,
+    "bytesWritten": 47500,
+    "timeTakenSeconds": 10.135951755,
+    "req1xx": 0,
+    "req2xx": 0,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 125,
+    "errors": [
+      {
+        "description": "read tcp 127.0.0.1:45148->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45154->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45182->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45135->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45245->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45242->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45166->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45260->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45143->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45193->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45222->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45218->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45167->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45232->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45224->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45273->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45117->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45145->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45150->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45173->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45205->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45194->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45208->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45202->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45142->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45220->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45223->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45210->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45192->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45195->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45230->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45240->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45272->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45136->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45187->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45247->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45271->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45170->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45243->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45127->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45211->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45261->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45270->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45183->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45144->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45188->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45201->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45216->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45235->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45120->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45241->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45118->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45155->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45266->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45138->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45175->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45274->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45268->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45160->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45197->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45200->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45234->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45250->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45246->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45265->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45198->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45180->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45152->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45178->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45221->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45225->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45231->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45139->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45172->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45264->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45164->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45269->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45146->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45141->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45177->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45174->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45267->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45131->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45156->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45181->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45252->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45147->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45163->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45226->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45153->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45185->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45249->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45251->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45259->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45130->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45165->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45236->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45229->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45257->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45137->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45207->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45263->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45199->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45196->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45204->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45206->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45134->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45179->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45176->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45186->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45119->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45133->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45151->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45256->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45129->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45140->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45161->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45169->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45203->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45217->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45227->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45128->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45219->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45262->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:45212->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      }
+    ],
+    "latency": {
+      "mean": 10093583.744,
+      "stddev": 21168.422146925925,
+      "max": 10133884
+    },
+    "rps": {
+      "mean": 1.641494803473939,
+      "stddev": 36.63160333041768,
+      "max": 820.7474017369694,
+      "percentiles": {
+        "50": 0,
+        "75": 0,
+        "90": 0,
+        "95": 0,
+        "99": 0
+      }
+    }
+  }
+}
