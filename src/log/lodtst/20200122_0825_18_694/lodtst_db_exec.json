@@ -1,0 +1,117 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "POST",
+    "url": "http://localhost:1112/xaspost.js",
+    "headers": [
+      {
+        "key": "Content-type",
+        "value": "application/json"
+      }
+    ],
+    "body": "{\"cmd\":\"ls\"}",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 664046,
+    "bytesWritten": 199335,
+    "timeTakenSeconds": 10.410916213,
+    "req1xx": 0,
+    "req2xx": 1433,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 17,
+    "errors": [
+      {
+        "description": "read tcp 127.0.0.1:55471->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55538->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55498->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55553->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55527->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55447->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55450->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55460->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55449->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55542->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55523->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55466->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55838->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55476->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:56019->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55558->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      },
+      {
+        "description": "read tcp 127.0.0.1:55483->127.0.0.1:1112: i/o timeout",
+        "count": 1
+      }
+    ],
+    "latency": {
+      "mean": 879731.6889655172,
+      "stddev": 457111.7378699179,
+      "max": 3248003
+    },
+    "rps": {
+      "mean": 133.81324035856824,
+      "stddev": 112.9237116800696,
+      "max": 885.2215424985378,
+      "percentiles": {
+        "50": 100.192244,
+        "75": 199.700868,
+        "90": 295.605936,
+        "95": 349.928562,
+        "99": 549.384223
+      }
+    }
+  }
+}
