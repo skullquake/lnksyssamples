@@ -1,0 +1,4 @@
+<@
+	var a='asdf';
+	out.Println(Math.random());
+@>

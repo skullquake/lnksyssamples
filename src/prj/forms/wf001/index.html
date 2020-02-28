@@ -1,0 +1,50 @@
+<@
+	//CPrintln('/forms/wf001/index.html:'+resource().Path());
+	function uuidv4(){
+		return "xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx"
+			.replace(
+				/[xy]/g,
+				function(c) {
+					var r=Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+					return v.toString(16);
+				}
+			);
+	};
+	var guid=uuidv4();
+	var formguid='form_'+guid;
+
+@>
+<div id="title"></div>
+<div id="<@ out.Print(formguid); @>"></div>
+<div>
+	<button id="btn_<@ out.Print(formguid); @>" class="btn btn-default" onclick="submit<@ out.Print(formguid); @>()">Submit</button>
+</div>
+<script src="/jquery.js|webaction.js"></script>
+<script>
+	try{
+		window.automate=false;//out.Print(automate);
+		var sidx<@ out.Print(formguid); @>=0;
+		function populate<@ out.Print(formguid); @>(e){
+			$('#<@ out.Print(formguid); @> input:not(:hidden)').toArray().forEach(function(a,b){
+				$(a).val(Math.random());
+			});
+		}
+		function submit<@ out.Print(formguid); @>(){
+			console.log('submit<@ out.Print(formguid); @>()...');
+			//console.log($('#<@ out.Print(formguid); @>'))
+			if($("#<@ out.Print(formguid); @>").length>0){
+				postNode(
+					{
+						url_ref:"<@ out.Print(resource().Path().substring(0,resource().Path().lastIndexOf('/'))); @>/index.js?formguid=<@out.Print(formguid); @>&sidx="+sidx<@ out.Print(formguid); @>,
+						form_ref:"#<@ out.Print(formguid); @>",
+						target:"#<@ out.Print(formguid); @>"
+					}
+				);
+			}
+		}
+		//if(window.automate)submit<@ out.Print(formguid); @>();
+	}catch(e){
+		alert(e.toString());
+	}
+</script>
+

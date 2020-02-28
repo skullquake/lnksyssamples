@@ -1,0 +1,27 @@
+<div class="container" style="margin-top:24px;margin-bottom:24px;">
+	<div class="row" id="example2">
+		<div class="col-md-12">
+			<div class="card">
+				<div class="card-header">
+					SJS Reflect
+				</div>
+				<div class="card-body">
+					<pre><code class="language-javascript"><@
+						include('/lib/sjs/lnksys/libreflect.js');
+						out.Println(
+							JSON.stringify(
+								lnksys.reflect.reflect(),
+								0,
+								' '
+							)
+						);
+					@></code></pre>
+				</div>
+			</div>
+		</div>
+	</div><!-- //row -->
+	<div class="spacer"></div>
+</div><!-- //container -->
+
+
+

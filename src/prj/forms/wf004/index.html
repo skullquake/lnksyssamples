@@ -1,0 +1,107 @@
+<@
+	function uuidv4(){
+		return "xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx"
+			.replace(
+				/[xy]/g,
+				function(c) {
+					var r=Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+					return v.toString(16);
+				}
+			);
+	};
+	var pth=resource().Path().substring(0,resource().Path().lastIndexOf('/'));
+	pth=pth.replace(/\//g,'_');
+	pth=pth[0]=='_'?pth.substring(1):pth;
+	CPrintln(pth);
+	var guid=uuidv4();
+	var node=pth+'_'+guid;
+
+@>
+<div id="<@ out.Print(node); @>" style="white-space:pre;"></div>
+<script>
+	try{
+		window.automate<@ out.Print(node); @>=true;//out.Print(automate);
+		var sidx<@ out.Print(node); @>=0;
+		function populate<@ out.Print(node); @>(e){
+			$('#<@ out.Print(node); @> input:not(:hidden)').toArray().forEach(function(a,b){
+				$(a).val(Math.random());
+			});
+		}
+		var el=$("#<@ out.Print(node); @>");
+		var t0=new Date();
+		var t1=new Date();
+		var dt=0;
+		var freq=0;
+		if(el.length>0){
+			el[0].data=el[0].data==null?{}:el[0].data;
+			el[0].done=el[0].done==null?function(){
+				t1=new Date();
+				dt=t1-t0;
+				freq=1000/dt;
+				el[0].data.treq=dt+' ms';
+				el[0].data.fps=dt;
+				el[0].innerHTML=JSON.stringify(el[0].data.sidx,0,' ');
+			}:el[0].done;
+			el[0].submit=function(){
+				//console.log('submit: '+el[0].id);
+				if(el.length>0){
+					el[0].data.tsent=new Date().getTime();
+					el[0].data.tres=new Date()-el[0].data.srvts+' ms';
+					el[0].data.node="<@out.Print(node); @>";
+					t0=new Date();
+					var url="<@ out.Print(resource().Path().substring(0,resource().Path().lastIndexOf('/'))); @>/index.js"
+					$.proxy(postNode(
+						{
+							url_ref:url//+
+								//"?"+
+								//"node=<@out.Print(node); @>"+
+								//"&nodedata="+encodeURI(JSON.stringify(el[0].data))
+							,
+							form_ref:"#<@ out.Print(node); @>",
+							target:"#<@ out.Print(node); @>",
+							json_ref:el[0].data,
+							resolved:$.proxy(function(){
+								//console.log('resolved');
+							},this),
+							rejected:$.proxy(function(){
+								//console.log('rejected');
+								//lnksys.ui.registry[el[0].id]!=null?this.submit():null;
+								//el[0].submit();
+							},this)
+						}
+					),this);
+				}
+			}
+			window.lnksys=typeof(lnksys)=='undefined'?{}:lnksys;
+			window.lnksys.ui=typeof(lnksys.ui)=='undefined'?{}:lnksys.ui;
+			window.lnksys.ui.registry=typeof(lnksys.ui.registry)=='undefined'?{}:lnksys.ui.registry;
+			window.lnksys.ui.registry.cleanup=function(obj){//overwrite???
+				if(lnksys.ui.registry[obj.id]!=null){
+					console.log("Removing "+obj.id);
+					delete lnksys.ui.registry[obj.id];
+				}else{
+				}
+			};
+			//jquery extension
+			(function($){
+				$.event.special.destroyed={
+					remove:function(o){
+						if(o.handler){
+							o.handler(this);
+						}
+					}
+				}
+			})(jQuery);
+			//attach
+			$("#<@ out.Print(node); @>").bind(
+				'destroyed',
+				lnksys.ui.registry.cleanup
+			);
+			window.lnksys.ui.registry['<@ out.Print(node); @>']=el[0];
+			el[0].submit();
+		}
+	}catch(e){
+		alert(e.toString());
+	}
+</script>
+

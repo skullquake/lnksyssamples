@@ -1,0 +1,68 @@
+<@
+	var nbars=10;
+	var height=20;
+	var width=600;
+	var fontsize=0.75*height;
+	var pad=20;
+
+
+	//theta
+	var tdiv=8000;
+	var tsf=((new Date().getTime())%tdiv)/tdiv;
+	var theta=(
+		1+Math.sin(
+			2*Math.PI*tsf
+		)
+	)/2;
+	/*
+	//colors
+	var rgba=[]
+	rgba.push(255-theta*255)
+	rgba.push(theta*255)
+	rgba.push(255-theta*255)
+	rgba.push(theta)
+	//CPrintln(tsf)
+	//CPrintln(theta)
+	*/
+
+	//bars
+	var bars=[];
+	for(var i=0;i<nbars;i++){
+		theta=(
+			1+Math.sin(
+				2*(i/nbars)+
+				(2*Math.PI*tsf)
+			)/2
+		)/2;
+		//CPrintln('tsf:'+tsf);
+		//CPrintln('theta:'+theta);
+		var barwidth=
+			//(theta*width/(i+1))
+			(theta*width)
+			//+Math.floor(Math.random()*width/40)
+		var barcolor=
+			'rgba('
+			+[
+				(barwidth/width)*255,
+				0,
+				255-(barwidth/width)*255,
+				0.8
+			].join(',')+')';
+		bars.push({
+			width:barwidth,
+			color:barcolor
+		});
+	}
+	var filllbl='rgba(255,255,255,0.8)'
+@>
+<figure>
+	<svg version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" class="chart" width="<@ out.Print(width+pad); @>" height="<@ out.Print(nbars*height+pad); @>" aria-labelledby="title" role="img">
+	<@ for(var i=0;i<nbars;i++){ @>
+	<g class="bar">
+			<rect fill="<@ out.Print(bars[i].color); @>" width="<@ out.Print(bars[i].width); @>" height="<@ out.Print(1.0*height); @>" y="<@ out.Print(i*height);@>"></rect>
+			<text font-size="<@ out.Print(fontsize); @>" fill="<@ out.Print(bars[i].color); @>" x="<@ out.Print(width); @>" y="<@ out.Print(i*height+pad); @>" dy=".35em"><@ out.Print(i); @></text>
+	</g>
+	<@ } @>
+	</svg>
+</figure>
+

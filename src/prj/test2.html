@@ -1,0 +1,11 @@
+<@
+	CPrintln('/test2.html')
+	try{
+		include("/lib/sjs/lnksys/libhttpbin.js");
+		out.Println(
+			JSON.stringify(lnksys.httpbin(),0,' ')
+		)
+	}catch(e){
+		out.Println(e.toString());
+	}
+@>

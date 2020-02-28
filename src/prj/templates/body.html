@@ -1,0 +1,10 @@
+<@
+        CPrintln('/templates/body.html:'+resource().Path());
+	include("/templates/scripts.html");
+	include("/templates/nav.html");
+	var page=request.Parameters().Parameter("page");
+	page=page==null||page==''?'home':page+'';//turn to js string
+@>
+<div class="main" id="main"><@
+	include((page[0]=='/'?'':'/forms/')+page+(page.indexOf('.')>0?'':'.html'));//defaults
+@></div>

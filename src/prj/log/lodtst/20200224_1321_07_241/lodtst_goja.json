@@ -1,0 +1,41 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "GET",
+    "url": "http://localhost:1111/lib/sjs/tst/lod/goja.js",
+    "body": "",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 693641,
+    "bytesWritten": 257550,
+    "timeTakenSeconds": 10.280477463,
+    "req1xx": 0,
+    "req2xx": 3029,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 0,
+    "latency": {
+      "mean": 418366.6754704523,
+      "stddev": 283509.33893464203,
+      "max": 2727534
+    },
+    "rps": {
+      "mean": 291.78039796060517,
+      "stddev": 172.7044804633222,
+      "max": 1034.5991807583866,
+      "percentiles": {
+        "50": 250.789988,
+        "75": 400.038344,
+        "90": 540.108136,
+        "95": 601.393248,
+        "99": 853.24943
+      }
+    }
+  }
+}

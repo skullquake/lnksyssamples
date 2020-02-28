@@ -1,0 +1,21 @@
+<@
+	CPrintln("/forms/libtest.html:start");
+	var t0=new Date();
+	include("/lib/sjs/lnksys/libdb.js");
+	include("/lib/sjs/lnksys/libdata.js");
+	var arr=lnksys.data.genarr(8,8);
+	out.Println(lnksys.data.arr2table(arr));
+	@><pre><code class="language-javascript"><@
+	out.Println(lnksys.data.arr2delim(arr));
+	@></code></pre><@
+	out.Println(lnksys.data.arr2table(arr));
+	include("/lib/sjs/lodash/lodash.js");
+	@><pre><code class="language-javascript"><@
+	_.range(32).forEach(function(a,aidx){
+		var line=a+":"+_.range(32).join(',');
+		out.Println(line)+"<br/>";
+	});
+	@></code></pre><@
+	var t1=new Date();
+	CPrintln("/forms/libtest.html:end["+(t1-t0)+" ms]");
+@>

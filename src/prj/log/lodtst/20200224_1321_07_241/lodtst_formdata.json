@@ -1,0 +1,47 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "POST",
+    "url": "http://localhost:1111/tst/parameters.html",
+    "headers": [
+      {
+        "key": "Content-type",
+        "value": "multipart/form-data; boundary=1234567890"
+      }
+    ],
+    "body": "foo=bar;\\r\\nbaz=qux\\r\\n",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 1841905,
+    "bytesWritten": 1550627,
+    "timeTakenSeconds": 10.091904088,
+    "req1xx": 0,
+    "req2xx": 8567,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 0,
+    "latency": {
+      "mean": 146547.29321816273,
+      "stddev": 75451.43227939463,
+      "max": 508158
+    },
+    "rps": {
+      "mean": 845.220368237451,
+      "stddev": 412.22103649176734,
+      "max": 2439.833943905927,
+      "percentiles": {
+        "50": 750.788328,
+        "75": 1050.11378,
+        "90": 1410.434252,
+        "95": 1652.820124,
+        "99": 2154.749391
+      }
+    }
+  }
+}

@@ -1,0 +1,92 @@
+<@
+	function uuidv4(){
+		return "xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx"
+			.replace(
+				/[xy]/g,
+				function(c) {
+					var r=Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+					return v.toString(16);
+				}
+			);
+	};
+	//get resource path for client side registry
+	var pth=resource().Path().substring(0,resource().Path().lastIndexOf('/'));
+	pth=pth.replace(/\//g,'_');
+	pth=pth[0]=='_'?pth.substring(1):pth;
+	var id=pth+'_'+uuidv4();
+@>
+<div id="<@ out.Print(id); @>"></div>
+<script>
+	(function(){
+		var id='<@ out.Print(id); @>';
+		var div=$('#'+id);
+		try{
+			var el=div;
+			var t0=new Date();
+			var t1=new Date();
+			var dt=0;
+			var freq=0;
+			if(el.length>0){
+				el[0].data=el[0].data==null?{}:el[0].data;
+				el[0].data.input=el[0].data.input==null?{}:el[0].data.input;
+				el[0].data.output=el[0].data.output==null?{}:el[0].data.output;
+				el[0].done=el[0].done==null?function(){
+				}:el[0].done;
+				el[0].submit=function(){
+					if(el.length>0){
+						el[0].data.node=el[0].id;
+						var url="<@ out.Print(resource().Path().substring(0,resource().Path().lastIndexOf('/'))); @>/index.js"
+						$.proxy(postNode(
+							{
+								url_ref:url,
+								ctx:el[0],
+								form_ref:"#"+el[0].id,
+								target:"#"+el[0].id,
+								json_ref:el[0].data,
+								resolved:$.proxy(function(){
+									if(lnksys.ui.registry[el[0].id]!=null)el[0].submit();
+								},this),
+								rejected:$.proxy(function(o,e){
+									console.log('rejected:'+e);
+									if(lnksys.ui.registry[el[0].id]!=null)el[0].submit();
+								},this)
+							}
+						),el[0]);
+					}
+			/*
+
+			*/
+				}
+				window.lnksys=typeof(lnksys)=='undefined'?{}:lnksys;
+				window.lnksys.ui=typeof(lnksys.ui)=='undefined'?{}:lnksys.ui;
+				window.lnksys.ui.registry=typeof(lnksys.ui.registry)=='undefined'?{}:lnksys.ui.registry;
+				window.lnksys.ui.registry.cleanup=function(obj){//overwrite???
+					if(lnksys.ui.registry[obj.id]!=null){
+						console.log("Removing "+obj.id);
+						delete lnksys.ui.registry[obj.id];
+					}else{
+					}
+				};
+				//jquery extension
+				(function($){
+					$.event.special.destroyed={
+						remove:function(o){
+							if(o.handler){
+								o.handler(this);
+							}
+						}
+					}
+				})(jQuery);
+				$(el[0]).bind(
+					'destroyed',
+					lnksys.ui.registry.cleanup
+				);
+				window.lnksys.ui.registry[el[0].id]=el[0];
+				el[0].submit();
+			}
+		}catch(e){
+			alert(e.toString());
+		}
+	})();
+</script>
+

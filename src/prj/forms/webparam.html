@@ -1,0 +1,139 @@
+<@
+{
+	main();
+	function main(){
+		switch(request.RequestMethod()){
+			case 'GET':
+				CPrintln('GET');
+				renderHTML();
+				break;
+			case 'POST':
+				CPrintln('POST');
+				processSubmit();
+				break;
+			default:
+				CPrintln('Invalid Method');
+				break;
+		}
+
+	}
+	function renderHTML(){
+		CPrintln('renderHTML()');
+@>
+<DOCTYPE! html>
+<html>
+	<head>
+		<meta name="theme-color" content="#000000">
+		<title>
+			WebParam Test
+		</title>
+		<script src="/jquery.js|blockui.js|webaction.js"></script>
+		<link rel="stylesheet" href="/lib/fonts/fonts.css">
+		<style>
+			html,
+			body{
+				background:#111111;
+			}
+			*{
+				font-family:"ProggySquare"!important;
+				line-height:12px;
+				text-decoration:unset;
+				color:#FFFFFF;
+				background:unset;
+				border:unset;
+				font-family:monospace;
+				/* text-shadow: 0px 0px 4px #FFFFFF!important; */
+			}
+			#log,
+			input{
+				background:rgba(255,255,255,0.5);
+				margin-bottom:4px;
+			}
+			input{
+				max-width:64px;
+			}
+			label{
+				text-align:right;
+				margin-right:8px;
+				width:48px!important;
+				display:inline-block;
+			}
+		</style>
+	</head>
+	<body>
+		<div id="title">
+			<@ genTitle(); @>
+		</div>
+		<div style="display:flex;">
+			<@ genForm(); @>
+			<div style="width:33%">
+			<div id="log" style="width:100%;max-height:395px;overflow:auto;"></div>
+			</div>
+		</div>
+		<script>
+			function populate(e){
+				$('input').toArray().forEach(function(a,b){
+					$(a).val(Math.random());
+				});
+			}
+			function submit(e){
+				window.frmidx=window.frmidx==null?0:window.frmidx+1;
+				postForm({url_ref:"/forms/webparam.html?frmidx="+window.frmidx,form_ref:"#frm0 input"});
+			}
+			function cls(){
+				$('#log').empty();
+			}
+		</script>
+	</body>
+</html>
+<@
+	}
+	function genTitle(ttlidx){
+		ttlidx=ttlidx==null?0:ttlidx;
+		@>
+		<h3>
+			WebParam Test[<@ out.Print(ttlidx); @>]
+		</h3>
+		<@
+
+	}
+	function genForm(frmidx){
+		frmidx=frmidx==null?0:frmidx;
+		var nfld=Math.floor(Math.random()*90+10)
+		var lbl=['foo','bar','baz','qux','klutz'];
+		@>
+		<form id="frm0" style="width:66%;">
+			<div>
+				<a href="#" onclick="submit()">Submit</a>
+				<a href="#" onclick="cls()">Clear</a>
+				<a href="#" onclick="populate()">Populate</a>
+			</div>
+			<@ for(var i=0;i<nfld;i++){@>
+				<label><@ out.Print(lbl[Math.floor(Math.random()*lbl.length)]); @><@ out.Print(i); @></label><input name=="inp<@ out.Print(i); @>" id="inp<@ out.Print(i); @>"></input><@ out.Print((i+1)%5==0?'<br/>':''); @><@
+			} @>
+			<br/>
+		</form>
+		<@
+	}
+	function processSubmit(){
+		CPrintln('processSubmit()');
+@>
+script||
+populate();
+submit();
+||script
+replace-content||#log||
+<@ out.Println(Math.random()); @>
+||replace-content
+replace-content||#frm0||
+<@ genForm(); @>
+||replace-content
+replace-content||#title||
+<@ genTitle(request.Parameters().Parameter('frmidx')[0]); @>
+||replace-content
+<@
+	}
+}
+@>
+
+

@@ -1,0 +1,24 @@
+require(
+	[
+		 'dojo/domReady!'
+		//,'lnksys/logger'
+		,'dojo/query'
+		,'dojo/NodeList-traverse'
+		,'dojo/NodeList-manipulate'
+		,'dojo/NodeList-html'
+		,'/js/modules/DataGridExample.js'
+	],
+	function(
+		 ready
+		//,logger
+		,query
+		,nodeListTraverse
+		,nodeListManipulate
+		,nodeListHtml
+		,DataGridExample
+	){
+		console.log('main:start');
+		console.log('main:end');
+	}
+);
+

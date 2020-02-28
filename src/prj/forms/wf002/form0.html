@@ -1,0 +1,9 @@
+script||
+// nothing
+||script
+<input type="hidden" id="form" name="form" value="form0"></input>
+<@
+	var pth=resource().Path().substring(0,resource().Path().lastIndexOf('/'));
+	include(pth+'/fig.svg');
+@>
+<@ //CPrintln('/forms/wf001/form0.html:'+resource().Path()); @>

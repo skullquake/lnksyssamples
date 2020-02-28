@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" href="/lib/fonts/fonts.css"></link>
+		<link rel="stylesheet" href="/css/style.css"></link>
+		<style>
+			*{
+				font-size:16px!important;
+				line-height:12px!important;
+				white-space:pre!important;
+			}
+		</style>
+	</head>
+	<body>
+<@
+function query(q){
+	try{
+		var r=DBQuery(
+			"lnks",
+			q,
+			{}
+		);
+		if(r!=undefined){
+			var str_hdr=''
+			r.Columns().forEach(function(col){
+				str_hdr+=(col+',');
+			});
+			for(var i=0;i<str_hdr.length;i++)out.Print('-');
+			out.Print('\n');
+			out.Print(str_hdr);
+			out.Print('\n');
+			while(r.Next()){
+				r.Data().forEach(
+					function(d){
+						out.Print(d);
+						out.Print(',');
+					}
+				);
+				out.Print('\n');
+			}
+		}else{
+			out.Print("Failed to query");
+		}
+	}catch(e){
+	out.Println(e.toString());
+	}
+}
+//--------------------------------------------------------------------------------
+query("SELECT table_schema || '.' || table_name as Table FROM information_schema.tables WHERE table_type = 'BASE TABLE' AND table_schema NOT IN ('pg_catalog', 'information_schema'); ")
+query('SELECT * from "mendixsystem$entity"');
+query('SELECT * from "mendixsystem$attribute"');
+query('SELECT * from "mendixsystem$index"');
+query('SELECT * from "mendixsystem$index_column"');
+query('SELECT * from "mendixsystem$association"');
+query('SELECT * from "mendixsystem$version"');
+query('SELECT * from "mendixsystem$sequence"');
+query('SELECT * from "mendixsystem$entityidentifier"');
+query('SELECT * from "mendixsystem$properties"');
+query('SELECT * from "mendixsystem$unique_constraint"');
+query('SELECT * from "data$vec1s"');
+@>
+	</body>
+</html>
+
+

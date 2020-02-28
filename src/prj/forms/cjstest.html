@@ -1,0 +1,10 @@
+<@
+	request.ACommit(request.GetResource("/lib/sjs/include.js"));
+	include("/lib/sjs/lnksys/libcjs.js");
+	main();
+	function main(){
+		var cg=new lnksys.cjs.CodeGenerator();
+		cg.test();
+	}
+@>
+

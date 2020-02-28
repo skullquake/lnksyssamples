@@ -1,0 +1,47 @@
+#!/bin/env bash
+#--------------------------------------------------------------------------------
+#1-to-1 relationship
+#note INSERT INTO TBL(COL)VALUES(VAL) RETURNING TBL_ID;
+#this is executed as a query, does an insert, and returns the autonumber/serial
+#references: www.sqlines.com/postgresql/datatypes/serial
+#--------------------------------------------------------------------------------
+TBLNAMA=PROFESSOR
+TBLNAMB=DEPARTMENT
+#--------------------------------------------------------------------------------
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"drop table if exists '$TBLNAMA'","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"create table if not exists '$TBLNAMA'('$TBLNAMA'_id serial not null,value int not null)","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+#--------------------------------------------------------------------------------
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"drop table if exists '$TBLNAMB'","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"create table if not exists '$TBLNAMB'('$TBLNAMB'_id serial not null,'$TBLNAMA'_id int default 0, primary key('$TBLNAMA'_id),unique('$TBLNAMA'_id),foreign key('$TBLNAMA'_id)references '$TBLNAMB'('$TBLNAMA'_id))","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+
+for i in `seq 0 1 1`;do
+	curl\
+		http://localhost:1111/lib/sjs/tst/db000.js\
+		-X POST\
+		--data '{"action":"query","params":{"query":["DECLARE","    foo integer := 1;","DO $$","BEGIN","    insert into '$TBLNAMA' (value)  values (foo);","END $$;"],"args":{"foobar":'$i'}}}'\
+		-H "Content-type: application/json"
+done
+#		--data '{"action":"query","params":{"query":"begin insert into '$TBLNAMA' (value)  values (@value@) returning '$TBLNAMA'_id;end","args":{"value":'$i'}}}'
+
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"query","params":{"query":"select * from '$TBLNAMA'","args":{}}}'\
+	-H "Content-type: application/json"
+

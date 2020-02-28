@@ -1,0 +1,96 @@
+<@
+include("/lib/sjs/lnksys/libui.js");
+main();
+function main(){
+	var mnu=new lnksys.ui.Menu();
+	mnu.setTitle("LnkSys");
+	mnu.setItems([
+			{href:"/index.html?page=home",title:"Home"},
+			{href:"/index.html?page=users/index.html",title:"users"},
+			{href:"/index.html?page=dbcomponent/index.js",title:"dbcomponent"},
+			{href:"/index.html?page=dbcomponentclass/index.js",title:"dbcClass"},
+			{href:"/index.html?page=/lib/sjs/tst/dbjson.js",title:"db"},
+			{href:"/index.html?page=httpbin",title:"HttpBin"},
+			{href:"/index.html?page=sjsreflect",title:"SJS Reflect"},
+			{href:"/index.html?page=datatablestest",title:"DataTables Test"},
+			{href:"/index.html?page=jsontest",title:"JSONTest"},
+			{href:"/index.html?page=libtest",title:"LibLod Test"},
+			{href:"/index.html?page=lodashtest",title:"Lodash Test"},
+			{href:"/index.html?page=classjstest",title:"ClassJS Test"},
+			{href:"/index.html?page=dbtest",title:"Db Test"},
+			{href:"/index.html?page=uitest",title:"UI Test"},
+			{href:"/index.html?page=menutest",title:"Menu Test"},
+			{href:"/index.html?page=tabletest",title:"Table Test"},
+			{href:"/index.html?page=formtest",title:"Form Test"},
+			{href:"/index.html?page=cjstest",title:"CJS Test"},
+			{href:"/index.html?page=webparam",title:"WP Test"},
+			{href:"/index.html?page=wf000/index",title:"WF000"},
+			{href:"/index.html?page=wf001/index.js",title:"WF001"},
+			{href:"/index.html?page=webactionmulti.html",title:"WFMulti"},
+			{href:"/index.html?page=wf002/index.js",title:"WF002"},
+			{href:"/index.html?page=wf003/index.js",title:"WF003"},
+			{href:"/index.html?page=wf004/index.js",title:"WF004"},
+			{href:"/index.html?page=raphael/index.js",title:"raphael"},
+			{href:"/index.html?page=wajs000",title:"wajs000"},
+	]);
+	mnu.nav.attr.id='mainMenu';
+	var scr=new lnksys.ui.Node({
+		node:'script',
+		contents:
+'$("a.navbar-brand").click(\n'+
+'	function(e){\n'+
+'		var ndl="page=";\n'+
+'		var pg=document.location.href.replace("#","").substring(e.target.href.indexOf(ndl)+ndl.length);\n'+
+'		var url=(pg[0]=="/"?"":"/forms/")+pg+(pg.indexOf(".")>0?"":".html");\n'+
+'		$.get(url).then(\n'+
+'			function(data){\n'+
+'				done=true;\n'+
+'				$("#main").html(data);\n'+
+'				window.history.pushState({"html":data,"pageTitle":"test0"},pg,e.target.href);\n'+
+'				document.title=pg;\n'+
+'			}\n'+
+'		);\n'+
+
+'	}\n'+
+')\n'+
+'$(".nav-link").click(\n'+
+'	function(e){\n'+
+'		e.preventDefault();\n'+
+'		$(".navbar-collapse.collapse").removeClass("show");\n'+
+"var chr=['.','..','...','....'];\n"+
+"var done=false;\n"+
+"var chridx=0;\n"+
+"var ms=200;\n"+
+"var fnlod=function(){\n"+
+"    if(!done){\n"+
+"    document.title='Loading '+chr[chridx];\n"+
+"    chridx++;\n"+
+"    chridx%=chr.length;\n"+
+"        window.setTimeout(\n"+
+"	          fnlod,\n"+
+"	          ms\n"+
+"        );\n"+
+"    }\n"+
+"};\n"+
+"window.setTimeout(\n"+
+"  fnlod,\n"+
+"   ms\n"+
+")\n"+
+'		var ndl="page=";\n'+
+'		var pg=e.target.href.substring(e.target.href.indexOf(ndl)+ndl.length);\n'+
+'		var url="/forms/"+pg+(pg.indexOf(".")>0?"":".html");\n'+
+'		$.get(url).then(\n'+
+'			function(data){\n'+
+'				done=true;\n'+
+'				$("#main").html(data);\n'+
+'				window.history.pushState({"html":data,"pageTitle":"test0"},pg,e.target.href);\n'+
+'				document.title=pg;\n'+
+'			}\n'+
+'		);\n'+
+'	}\n'+
+');\n'
+	});
+	out.Println(mnu.toHtml());
+	out.Println(scr.toHtml());
+}
+@>

@@ -1,0 +1,14 @@
+<@
+	request.ACommit(request.GetResource("/lib/sjs/include.js"));
+	include("/lib/sjs/lnksys/libui.js");
+	main();
+	function main(){
+		var tbl=new lnksys.ui.Table()
+		tbl.setHeader(['foo','bar','baz','qux','klutz']);
+		for(var i=0;i<32;i++){
+			tbl.addRow(['foo'+i,'bar'+i,'baz'+i,'qux'+i,'klutz'+i]);
+		}
+		out.Println(tbl.toHtml(' '));
+	}
+@>
+

@@ -1,0 +1,24 @@
+<@
+try{
+	var a=JSON.stringify(request.RequestHeaders());
+	out.Println(a);
+	/*
+	*/
+	/*
+	request.RequestHeaders().forEach(function(a,b){
+		out.Println(a);
+	});
+	*/
+	/*
+	for(var a in request.RequestHeaders()){
+		out.Println(a);
+	}
+	for(var a in request.ResponseHeaders()){
+		out.Println(a);
+	}
+	*/
+
+}catch(e){
+	out.Print(e.toString());
+}
+@>

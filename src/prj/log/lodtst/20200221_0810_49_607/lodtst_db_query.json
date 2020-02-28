@@ -1,0 +1,47 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "POST",
+    "url": "http://localhost:1111/xaspost.js",
+    "headers": [
+      {
+        "key": "Content-type",
+        "value": "application/json"
+      }
+    ],
+    "body": "{\"cmd\":\"ls\"}",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 1759932,
+    "bytesWritten": 1057503,
+    "timeTakenSeconds": 10.091110671,
+    "req1xx": 0,
+    "req2xx": 7719,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 0,
+    "latency": {
+      "mean": 162548.83236170487,
+      "stddev": 84067.2515084229,
+      "max": 879353
+    },
+    "rps": {
+      "mean": 760.0633433162393,
+      "stddev": 315.4861865293672,
+      "max": 1794.519469638986,
+      "percentiles": {
+        "50": 707.587389,
+        "75": 949.825849,
+        "90": 1205.207521,
+        "95": 1347.84345,
+        "99": 1530.618297
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+<@
+	request.ACommit(request.GetResource("/lib/sjs/include.js"));
+	include("/lib/sjs/lnksys/libui.js");
+        //include('/lib/sjs/lnksys/libdb.js');
+	main();
+	function main(){
+		var mnu=new lnksys.ui.Menu()
+			.setTitle("Menu")
+			.setItems([
+				{url:"#",title:"Item 0"},
+				{url:"#",title:"Item 1"},
+				{url:"#",title:"Item 2"},
+				{url:"#",title:"Item 3"}
+			])
+		mnu.nav.attr.id='myMenu0';
+		out.Println(mnu.toHtml());
+	}
+@>
+

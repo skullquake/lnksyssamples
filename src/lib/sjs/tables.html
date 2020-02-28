@@ -1,0 +1,44 @@
+<@
+try{
+var r=DBQuery(
+	"lnks",
+"SELECT\n\
+table_schema || '.' || table_name\n\
+as Table\n\
+FROM\n\
+information_schema.tables\n\
+WHERE\n\
+table_type = 'BASE TABLE'\n\
+AND\n\
+table_schema NOT IN ('pg_catalog', 'information_schema');\
+",
+	{}
+);
+if(r!=undefined){
+	var str_hdr=''
+	r.Columns().forEach(function(col){
+		str_hdr+=(col+',');
+	});
+	for(var i=0;i<str_hdr.length;i++)out.Print('-');
+	out.Print('\n');
+	out.Print(str_hdr);
+	out.Print('\n');
+	while(r.Next()){
+		r.Data().forEach(
+			function(d){
+				out.Print(d);
+				out.Print(',');
+			}
+		);
+		out.Print('\n');
+	}
+}else{
+	out.Print("Failed to query");
+}
+}catch(e){
+out.Println(e.toString());
+}
+
+@>
+
+

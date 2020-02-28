@@ -1,0 +1,93 @@
+<@
+	CPrintln('/forms/wf001/index.html:'+resource().Path());
+@>
+<div id="title"></div>
+<div id="content"></div>
+<div>
+	<button class="btn btn-default" onclick="submit()">Submit</button>
+</div>
+<!-- <script src="/jquery.js|blockui.js|webaction.js"></script> -->
+<script>
+	try{
+		window.sidx=0;
+		window.automate=true;//out.Print(automate);
+		function populate(e){
+			$('input:not(:hidden)').toArray().forEach(function(a,b){
+				$(a).val(Math.random());
+			});
+		}
+		function submit(){
+			postNode(
+				/*
+				{
+					url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+					form_ref:"#content input",
+					json_ref:{'asdf':'qwer'},
+					options:function(){alert('0')}
+				}
+				*/
+				/*
+				{
+					url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+					form_ref:"#content input",
+					json_ref:{'k0':'kv0'},
+					options:[
+						{
+							url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+							form_ref:"#content input",
+							json_ref:{'k1':'v1'},
+							options:function(){alert('option1')}
+						},
+						{
+							url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+							form_ref:"#content input",
+							json_ref:{'k2':'v2'},
+							options:function(){alert('option2')}
+						},
+
+					]
+				}
+				*/
+				{
+					url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+					form_ref:"#content input",
+					json_ref:{'k0':'kv0'},
+					options:function(){
+						//alert('hi');
+						var ret=[];
+						for(var i=0;i<50;i++){
+							ret.push({
+								url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+								form_ref:"#content input",
+								json_ref:{'k1':'v1'},
+								options:function(){console.log('option'+i)}
+							})
+						}
+						return ret;
+					}
+
+				}
+				/*
+				[
+					{
+						url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+						form_ref:"#content input",
+						json_ref:{'asdf':'qwer'},
+						options:function(){alert('1')}
+					},
+					{
+						url_ref:"/forms/wf000/index.js"+(window.sidx==null?"":"?sidx="+window.sidx++),
+						form_ref:"#content input",
+						json_ref:{'asdf':'qwer'},
+						options:function(){alert('2')}
+					}
+				]
+				*/
+			);
+		}
+		if(window.automate)submit();
+	}catch(e){
+		alert(e.toString());
+	}
+</script>
+

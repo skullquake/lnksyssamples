@@ -1,0 +1,56 @@
+#!/bin/env bash
+printf "________________________________________\n"
+printf "ONE TO ONE DEMO\n"
+printf "________________________________________\n"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"DO $$",
+"DECLARE",
+"    idx     integer:=0;",
+"    ncls    integer:=8;",
+"    _cls0_id integer;",
+"BEGIN",
+"    create temporary table _tmp0(a int) on commit drop;",
+"    drop table if exists cls0 cascade;",
+"    drop table if exists cls1 cascade;",
+"    create table cls0(",
+"        cls0_id serial primary key,",
+"        value int",
+"    );",
+"    create table cls1(",
+"        cls1_id serial primary key not null,",
+"        cls0_id int unique references cls0(cls0_id),",
+"        value int",
+"    );",
+"    LOOP",
+"        EXIT WHEN idx=ncls;",
+"        insert into cls0(",
+"            value",
+"        )values(",
+"            idx*10",
+"        ) returning cls0_id into _cls0_id;",
+"        insert into cls1(",
+"            value,",
+"            cls0_id",
+"        )values(",
+"            idx*100,",
+"            _cls0_id",
+"        );",
+"        idx=idx+1;",
+"    END LOOP;",
+"END $$;",
+"select cls0.cls0_id,cls0.value,cls1.value from cls0 left outer join cls1 on cls0.cls0_id=cls1.cls0_id;",
+""
+		],
+		"args":{
+		}
+	}
+}'

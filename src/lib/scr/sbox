@@ -1,0 +1,47 @@
+#!/bin/env bash
+printf '
+----------------------------------------
+'
+printf "CREATING FUNCTION..."
+printf '
+----------------------------------------
+'
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"drop function if exists fn_foobaz();",
+"create or replace function fn_fooqux(",
+"    variadic args numeric[]",
+")",
+"    returns numeric",
+"as $$",
+"declare",
+"    i numeric;",
+"    j numeric;",
+"    r numeric;",
+"begin",
+"    r=0;",
+"    i=1;",
+"    loop",
+"        exit when i=array_length(args,1)+1;",
+"        r=r+args[i];",
+"        i=i+1;",
+"    end loop;",
+"    return r;",
+"end; $$",
+"language plpgsql;",
+"select * from fn_fooqux(2,2);",
+"-- select now() as a,now() as b;",
+""
+		],
+		"args":{
+		}
+	}
+}'

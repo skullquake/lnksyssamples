@@ -1,3 +1,0 @@
-<@
-	CPrintln(request.RequestContent().String());
-@>

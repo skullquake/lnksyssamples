@@ -1,0 +1,27 @@
+#!/bin/env bash
+TBLNAM=asdf
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"drop table if exists '$TBLNAM'","args":{}}}'\
+	-H "Content-type: application/json"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"create table if not exists '$TBLNAM'(a int)","args":{}}}'\
+	-H "Content-type: application/json"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"insert into '$TBLNAM' (a)  values (1)","args":{"a":1}}}'\
+	-H "Content-type: application/json"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"insert into '$TBLNAM' (a)  values (@a@),(@a@)","args":{"a":8}}}'\
+	-H "Content-type: application/json"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"query","params":{"query":"select * from '$TBLNAM'","args":{}}}'\
+	-H "Content-type: application/json"

@@ -1,0 +1,41 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "GET",
+    "url": "http://localhost:1111/lib/sjs/tst/lod/fib.js",
+    "body": "",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 779470,
+    "bytesWritten": 284676,
+    "timeTakenSeconds": 10.280584755,
+    "req1xx": 0,
+    "req2xx": 3389,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 0,
+    "latency": {
+      "mean": 374450.390085571,
+      "stddev": 258122.58431633774,
+      "max": 1913638
+    },
+    "rps": {
+      "mean": 326.32506374898173,
+      "stddev": 152.53140368781345,
+      "max": 1050.1334194509413,
+      "percentiles": {
+        "50": 303.004165,
+        "75": 425.180837,
+        "90": 542.927047,
+        "95": 597.718717,
+        "99": 715.246495
+      }
+    }
+  }
+}

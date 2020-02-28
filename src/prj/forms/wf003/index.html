@@ -1,0 +1,90 @@
+<@
+	//CPrintln('/forms/wf001/index.html:'+resource().Path());
+	function uuidv4(){
+		return "xxxxxxxx_xxxx_4xxx_yxxx_xxxxxxxxxxxx"
+			.replace(
+				/[xy]/g,
+				function(c) {
+					var r=Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+					return v.toString(16);
+				}
+			);
+	};
+	var guid=uuidv4();
+	var node='form_'+guid;
+
+@>
+<link rel="stylesheet" href="/lib/fonts/fonts.css">
+<style>
+.chartWrapper{
+	border-radius: .5em;
+	border: .3em solid
+	hsl(0, 0%, 33%);
+	box-shadow: 1px 1px .5em
+	black inset;
+	margin: .5em 0;
+	overflow: auto;
+	padding: 1em;
+	background:rgba(0,0,0,0.8);
+	font-family:"ProggySquare";
+	line-height:14px;
+	color:#888888;
+}
+</style>
+<div class="chartWrapper">
+	<div id="<@ out.Print(node); @>" style="white-space:pre;"></div>
+	<div>
+	<div id="<@ out.Print(node); @>_cb" style="white-space:pre;"></div>
+	<div>
+</div>
+<script src="/jquery.js|/webaction.js"></script>
+<script>
+	try{
+		window.automate<@ out.Print(node); @>=true;//out.Print(automate);
+		var sidx<@ out.Print(node); @>=0;
+		function populate<@ out.Print(node); @>(e){
+			$('#<@ out.Print(node); @> input:not(:hidden)').toArray().forEach(function(a,b){
+				$(a).val(Math.random());
+			});
+		}
+		var el=$("#<@ out.Print(node); @>");
+		var t0=new Date();
+		var t1=new Date();
+		var dt=0;
+		var freq=0;
+		if(el.length>0){
+			el[0].data=el[0].data==null?{}:el[0].data;
+			el[0].done=el[0].done==null?function(){
+				t1=new Date();
+				dt=t1-t0;
+				freq=1000/dt;
+				el[0].data.treq=dt+' ms';
+				el[0].data.fps=dt;
+			}:el[0].done;
+		}
+		function submit<@ out.Print(node); @>(){
+			if(el.length>0){
+				el[0].data.tsent=new Date().getTime();
+				el[0].data.tres=new Date()-el[0].data.srvts+' ms';
+				t0=new Date();
+				var url="<@ out.Print(resource().Path().substring(0,resource().Path().lastIndexOf('/'))); @>/index.js"
+				postNode(
+					{
+						url_ref:url+
+							"?"+
+							"node=<@out.Print(node); @>"+
+							"&nodedata="+encodeURI(JSON.stringify(el[0].data))
+						,
+						form_ref:"#<@ out.Print(node); @>",
+						target:"#<@ out.Print(node); @>"
+					}
+				);
+			}
+		}
+		if(window.automate<@ out.Print(node); @>)submit<@ out.Print(node); @>();
+	}catch(e){
+		alert(e.toString());
+	}
+	Prism.hightlightAll();
+</script>
+

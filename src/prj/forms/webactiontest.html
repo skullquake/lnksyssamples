@@ -1,0 +1,98 @@
+<@
+	{
+		request.ACommit(request.GetResource("/lib/sjs/include.js"));
+		include('/lib/sjs/lnksys/libui.js');
+		include('/lib/sjs/lnksys/libdb.js');
+		include('/lib/sjs/lnksys/libconsole.js');
+		include('/lib/sjs/lnksys/libhttpbin.js');
+		switch(request.RequestMethod()){
+			case 'GET':
+				console.log('GET');
+				console.log(JSON.stringify(lnksys.httpbin(),0,' '))
+				printForm();
+				break;
+			case 'POST':
+				console.log('POST');
+				console.warn(JSON.stringify(lnksys.httpbin(),0,' '))
+				break;
+			default:
+				console.error('Invalid Method');
+				break;
+		}
+		function printForm(){
+			var wrapper=new lnksys.ui.Node({
+				node:'div',
+				attr:{
+					class:'container',
+					style:'margin-top:8px;'
+				}
+			})
+			var frm=new lnksys.ui.Node({
+				node:'form',
+				attr:{}
+			});
+			var row=new lnksys.ui.Node({
+				node:'div',
+				attr:{class:'row'}
+			});
+			var ncol=3;
+			var nrow=128;
+			var cols=[];
+			var fidx=0;
+			for(var colidx=0;colidx<ncol;colidx++){
+				var col=new lnksys.ui.Node({
+					node:'div',
+					attr:{class:'col-sm-'+(Math.floor(12/ncol))}
+				});
+				cols.push(col);
+				for(var i=0;i<nrow;i++){
+					var frmgrp=new lnksys.ui.Node({
+						node:'div',
+						attr:{class:'form-group'}
+					});
+					var hlp=new lnksys.ui.Node({
+						node:'small',
+						attr:{
+							class:'form-text text-muted'
+						},
+						contents:"Information"
+					});
+					var inp=new lnksys.ui.Node({
+						node:'input',
+						attr:{
+							type:'text',
+							class:'form-control form-control-sm',
+							'aria-describedby':hlp.attr.id
+						}
+					});
+					frmgrp.addChild([
+						new lnksys.ui.Node({
+							node:'label',
+							attr:{for:inp.attr.id},
+							contents:'Field '+(fidx++)
+						}),
+						inp,
+						hlp
+					]);
+					col.addChild(frmgrp);
+				}
+
+			}
+			row.addChild(cols);
+			frm.addChild(row);
+			var btn=frm.addChild(
+				new lnksys.ui.Node({
+					node:'button',
+					contents:'Submit',
+					attr:{
+						class:'btn btn-primary',
+						href:'#',
+						onclick:'alert("hi");'
+					}
+				})
+			)
+			wrapper.addChild(frm)
+			out.Println(wrapper.toHtml())
+		}
+	}
+@>

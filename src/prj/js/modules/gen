@@ -1,0 +1,2 @@
+#!/bin/env bash
+curl -X GET -H "Range: 8" http://localhost:1111/js/modules/genEmployees.js

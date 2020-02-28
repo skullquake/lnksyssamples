@@ -1,0 +1,110 @@
+<@
+	CPrintln("/forms/es3classtest.html:start");
+	var t0=new Date();
+	include("/lib/sjs/classjs/class.js");
+	include("/lib/sjs/lnksys/libconsole.js");
+	include("/lib/sjs/lnksys/libalert.js");
+	try{
+		//----------------------------------------
+		//declare
+		//----------------------------------------
+		var Animal=new Class({
+			initialize:function(name,age){
+				console.debug("Animal:initialize()");
+				this.name=name;
+				this.age=age;
+			},
+			render:function(){
+				console.debug("Animal:render()");
+				out.Println(
+					(
+						'<div class="alert alert-info Animal">\n'+
+						'	<div id="name">\n'+
+						'		NAME: ${NAME}\n'+
+						'	</div>\n'+
+						'	<div id="age">\n'+
+						'		AGE: ${AGE}\n'+
+						'	</div>\n'+
+						'</div>\n'
+					)
+					.replace("${NAME}",this.name)
+					.replace("${AGE}",this.age)
+				);
+			},
+			eat: function () {
+				console.debug("Animal:eat()");
+				CPrintln(this.name+' is eating now.');
+			}
+		});
+		//----------------------------------------
+		//extend
+		//----------------------------------------
+		Animal.extend({
+			die: function () {
+			alert(this.name + ' died at age ' + this.age);
+			}
+		});
+		//----------------------------------------
+		//clone extend
+		//----------------------------------------
+		var MyAnimal=new Class(Animal);
+		MyAnimal.extend({
+			clone: function () {
+				console.debug(this.name + ' cloned at age ' + this.age);
+			}
+		});
+		 //----------------------------------------
+		//application
+		//----------------------------------------
+		var arrAnimal=[];
+		var arrMyAnimal=[];
+		for(var i=0;i<8;i++){
+			arrAnimal.push(new Animal('cat'+i,1+i));
+		}
+		for(var i=0;i<8;i++){
+			arrMyAnimal.push(new MyAnimal('rat'+i,1+i));
+		}
+		arrAnimal.forEach(function(obj,objidx){
+			obj.die()
+			obj.render();
+			console.warn(JSON.stringify(obj));
+		});
+		arrMyAnimal.forEach(function(obj,objidx){
+			obj.die()
+			obj.render();
+			obj.clone();
+			console.warn(JSON.stringify(obj));
+		});
+		//----------------------------------------
+		//implement
+		//implement simply copies object methods over into the new class and breaks the prototypal chain. It does
+		//not create a parent link nor does it copy initialize into the new class. Implemented methods cannot be
+		//overwritten to prevent accidental conflicts. Use extend to modify available class methods.
+		//----------------------------------------
+		console.log('implement:start');
+		MyAnimal.implement([
+			{
+				custom:function(){
+					console.log('custom:function()');
+				}
+			}
+			
+		]);
+		var arrMyAnimal2=[];
+		for(var i=0;i<8;i++){
+			arrMyAnimal2.push(
+				new MyAnimal()
+			);
+		}
+		arrMyAnimal2.forEach(function(obj,objidx){
+			obj.custom();
+		});
+		console.log('implement:end');
+		//----------------------------------------
+	}catch(e){
+		out.Println(e.toString());
+	}
+
+	var t1=new Date();
+	CPrintln("/forms/es3classtest.html:end["+(t1-t0)+" ms]");
+@>

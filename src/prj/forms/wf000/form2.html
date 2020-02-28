@@ -1,0 +1,11 @@
+script||
+||script
+||replace-content
+replace-content||#content||
+<h3>Form2<h3>
+<input class='form-control' name="name" placeholder='Name'></input>
+<input class='form-control' name="surname" placeholder='Surname'></input>
+<input class='form-control' name="sooc" placeholder='SSOC'></input>
+<input type="hidden" id="form" name="form" value="form2"></input>
+||replace-content
+<@ CPrintln('/forms/wf001/form2.html:'+resource().Path()); @>

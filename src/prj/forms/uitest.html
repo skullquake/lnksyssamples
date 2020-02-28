@@ -1,0 +1,158 @@
+<@
+	request.ACommit(request.GetResource("/lib/sjs/include.js"));//!!!
+	include("/lib/sjs/lnksys/libui.js");
+        include('/lib/sjs/lnksys/libdb.js');
+	main();
+	function main(){
+		//----------------------------------------------------------------------------
+		//ACK METHOD
+		//----------------------------------------------------------------------------
+		switch(request.RequestMethod()){
+			case "GET":
+				gentbl();
+				break;
+			case "POST":
+				hdlevt();
+				break;
+			case "DELETE":
+				CPrintln("DELETE stub");
+				break;
+			case "PUT":
+				CPrintln("PUT stub");
+				break;
+			case "PATCH":
+				CPrintln("PATCH stub");
+				break;
+			default:
+				CPrintln("Invalid Method");
+		}
+	}
+	function gentbl(){
+		var script=new lnksys.ui.Node(
+			{
+				node:'script',
+				contents:'\
+require(\
+	[\
+		"dojo/request",\
+		"dojo/dom",\
+		"dojo/on",\
+		"dojo/query",\
+		"dojo/domReady!"\
+	],\
+	function(\
+		request,\
+		dom,\
+		on,\
+		query\
+	){\
+		on(\
+			dom.byId("maintable"),\
+			"td:click",\
+			function(){\
+				request.post(\
+					"/forms/uitest.html",\
+					{\
+						data:JSON.stringify({id:this.id}),\
+						handleAs:"javascript",\
+						headers:{\
+							"Content-type":"application/json"\
+						}\
+					}\
+				).then(function(data){\
+				});\
+			}\
+		);\
+	}\
+);\
+				'
+			}
+		);
+		out.Println(script.toHtml());
+		var d=new lnksys.db.Db('buffered');
+		var thead=
+			new lnksys.ui.Node(
+				{
+					node:'thead'
+				}
+			);
+		var theadtr=new lnksys.ui.Node(
+			{
+				node:'tr'
+			}
+		);
+		var r=d.query('select * from employees limit 128','buffered');
+		Object.keys(r[0]).forEach(function(c,cidx){
+			theadtr.addChild(
+				new lnksys.ui.Node(
+					{
+						node:'th',
+						contents:c
+					}
+				)
+			);
+		})
+		thead.addChild(theadtr);
+		var tbody=
+			new lnksys.ui.Node(
+				{
+					node:'tbody'
+				}
+			)
+		;
+		var arrtr=[];
+		r.forEach(function(r,ridx){
+			var tr=new lnksys.ui.Node(
+				{
+					node:'tr',
+					attr:{
+						style:'border:0px;margin:unset;padding:unset'//,
+						//onClick:"alert(this.id)"
+					}
+				}
+			);
+			Object.keys(r).forEach(function(ck,ckidx){
+				tr.addChild(
+					new lnksys.ui.Node(
+						{
+							node:'td',
+							contents:r[ck],
+							attr:{
+								class:'alert alert-'+['danger','warning','info','success','dark'][Math.floor(Math.random()*5)],
+								style:'border-radius:0px;'
+							}
+						}
+					)
+				);
+			});
+			arrtr.push(tr);
+		});
+		tbody.addChild(
+			arrtr
+		)
+		var tbl=
+			new lnksys.ui.Node(
+				{
+					node:'table',
+					attr:{
+						class:'table table-sm table-striped',
+						id:'maintable'
+					}
+				}
+			)
+			.addChild(
+				thead
+			)
+			.addChild(
+				tbody
+			)
+		//console.warn(tbl.toHtml(' '));
+		out.Println(tbl.toHtml(' '));
+	}
+	function hdlevt(){
+		console.log('hdlevt');
+		var body=JSON.parse(request.RequestContent().String());
+		out.Println('dojo.query("#'+body.id+'")[0].innerHTML="'+(new Date().getTime())+'"');
+	}
+@>
+

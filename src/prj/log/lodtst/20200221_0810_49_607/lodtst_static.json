@@ -1,0 +1,41 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "GET",
+    "url": "http://localhost:1111/jquery.js",
+    "body": "",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 559741914,
+    "bytesWritten": 449714,
+    "timeTakenSeconds": 10.144614005,
+    "req1xx": 0,
+    "req2xx": 6334,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 0,
+    "latency": {
+      "mean": 198701.34196400378,
+      "stddev": 103306.25781300763,
+      "max": 712362
+    },
+    "rps": {
+      "mean": 622.848865750132,
+      "stddev": 229.74017887581041,
+      "max": 1296.489729362708,
+      "percentiles": {
+        "50": 600.888805,
+        "75": 790.895464,
+        "90": 943.573884,
+        "95": 999.733371,
+        "99": 1164.904797
+      }
+    }
+  }
+}

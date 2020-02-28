@@ -1,0 +1,20 @@
+.jq-toast-single{
+	background-color:#515960!important;
+}
+pre {
+	white-space: pre-wrap!important;       /* css-3 */
+	white-space: -moz-pre-wrap!important;  /* Mozilla, since 1999 */
+	white-space: -pre-wrap!important;      /* Opera 4-6 */
+	white-space: -o-pre-wrap!important;    /* Opera 7 */
+	word-wrap: break-word!important;       /* Internet Explorer 5.5+ */
+}
+.spacer{
+	display:block;
+	height:32px;
+}
+.list-unstyled ul{
+	margin-left:8px;
+}
+.list-unstyled .badge{
+	margin-left:8px;
+}

@@ -1,0 +1,21 @@
+<div class="${baseClass}">
+	<button
+		class="btn btn-${baseClass}"
+		data-dojo-attach-point="buttonNode"
+		data-dojo-attach-event="
+			 ondijitclick:_onButtonClick
+			,onmouseenter:buttonMouseEnter
+			,onmousedown:buttonMouseDown
+			,onmouseleave:buttonMouseLeave
+		"
+	>
+		${buttonText}
+	</button>
+	<span 
+		class="badge badge-${baseClass}"
+		data-dojo-attach-point="msgNode"
+	>
+		${msg}
+	</span>
+
+</div>

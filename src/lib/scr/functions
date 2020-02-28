@@ -1,0 +1,162 @@
+#!/bin/env bash
+printf '
+----------------------------------------
+'
+printf "CREATING FUNCTION..."
+printf '
+----------------------------------------
+'
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"-- dropping allows you to change parameters and return type",
+"drop function if exists fn_ret_int();",
+"drop function if exists fn_ret_str();",
+"drop function if exists fn_str_concat();",
+"drop function if exists fn_return_sometype();",
+"drop type if exists sometype;",
+"create or replace function fn_ret_int()",
+"    returns int as $$",
+"begin",
+"    return 1234;",
+"end; $$",
+"language plpgsql;",
+"create or replace function fn_ret_str()",
+"    returns varchar as $$",
+"begin",
+"    return $esc$'asdf'$esc$;",
+"end; $$",
+"language plpgsql;",
+"create or replace function fn_str_concat(a varchar,b varchar)",
+"    returns varchar as $$",
+"begin",
+"    return a||b;",
+"end; $$",
+"language plpgsql;",
+"create type sometype as(",
+"    m0 int,",
+"    m1 int",
+");",
+"create or replace function fn_return_sometype()",
+"    returns sometype as $$",
+"declare",
+"    ret sometype;",
+"begin",
+"    ret.m0=1234;",
+"    ret.m1=4321;",
+"    return ret;",
+"end; $$",
+"language plpgsql;",
+""
+		],
+		"args":{
+		}
+	}
+}'
+printf '
+----------------------------------------
+'
+printf "INVOKING FUNCTION..."
+printf '
+----------------------------------------
+'
+
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"select fn_ret_int();"
+		],
+		"args":{
+		}
+	}
+}'
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"select fn_ret_str();"
+		],
+		"args":{
+		}
+	}
+}'
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"select fn_str_concat(@a@,@b@);"
+		],
+		"args":{
+			"a":"foo",
+			"b":"bar"
+		}
+	}
+}'
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"select fn_return_sometype();"
+		],
+		"args":{
+		}
+	}
+}'
+# create and test
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"fmt":"csv",
+		"query":[
+"drop function exists fn_foo();",
+"create or replace function fn_foo()",
+"    returns int as $$",
+"begin",
+"    return 1234;",
+"end; $$",
+"language plpgsql;",
+"select fn_foo();",
+""
+		],
+		"args":{
+		}
+	}
+}'
+

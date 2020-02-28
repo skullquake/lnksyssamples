@@ -1,0 +1,6 @@
+#!/bin/env bash
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"listtables"}'\
+	-H "Content-type: application/json"

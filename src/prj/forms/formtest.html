@@ -1,0 +1,40 @@
+<@
+	request.ACommit(request.GetResource("/lib/sjs/include.js"));
+	include("/lib/sjs/lnksys/libui.js");
+	include("/lib/sjs/lnksys/libhttpbin.js");
+	main();
+	function main(){
+		switch(request.RequestMethod()){
+			case 'GET':
+				console.log('GET');
+				console.log(JSON.stringify(lnksys.httpbin(),0,' '))
+				renderHTML();
+				break;
+			case 'POST':
+				console.log('POST');
+				console.warn(JSON.stringify(lnksys.httpbin(),0,' '))
+				break;
+			default:
+				console.error('Invalid Method');
+				break;
+		}
+
+	}
+	function renderHTML(){
+		var lbl='ex astris sciantia cro magnon imperium federatum lorem ipsum sit consecutar doloar amet'.split(' ');
+		var wrapper=new lnksys.ui.Node({attr:{class:'container',style:'margin-top:8px'}});
+		var frm=new lnksys.ui.Form()
+		for(var j=0;j<1;j++){
+			for(var i=0;i<lbl.length;i++){
+				frm.addItem({
+					label:lbl[i],
+					type:'text'
+				});
+			}
+		}
+		//frm.node.attr.id='myForm';
+		wrapper.addChild(frm);
+		out.Println(wrapper.toHtml(' '));
+	}
+@>
+

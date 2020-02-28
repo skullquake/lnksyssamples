@@ -1,0 +1,44 @@
+<div class="container" style="margin-top:24px;margin-bottom:24px;">
+	<div class="row" id="example2">
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">
+					jqt
+				</div>
+				<div class="card-body">
+					<@ include('/forms/jqt/index.js'); @>
+				</div>
+			</div>
+		</div>
+		<div class="col-sm-6">
+			<div class="card">
+				<div class="card-header">
+					jqt
+				</div>
+				<div class="card-body">
+					<@ include('/forms/jqt/index.js'); @>
+				</div>
+			</div>
+		</div>
+
+
+	</div><!-- //row -->
+	<div class="spacer"></div>
+	<div class="row" id="example2">
+<@ for(var i=0;i<4;i++){ @>
+		<div class="col-sm-3">
+			<div class="card">
+				<div class="card-header">
+					FORM <@ out.Print(i); @>
+				</div>
+				<div class="card-body">
+					<@ include('/forms/raphael/index.js'); @>
+				</div>
+			</div>
+		</div>
+<@ } @>
+	<div class="spacer"></div>
+</div><!-- //container -->
+
+
+

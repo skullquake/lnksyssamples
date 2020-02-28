@@ -1,0 +1,244 @@
+#!/bin/env bash
+#--------------------------------------------------------------------------------
+#blocks
+#--------------------------------------------------------------------------------
+TBLNAMA=PROFESSOR
+TBLNAMB=DEPARTMENT
+#--------------------------------------------------------------------------------
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"drop table if exists '$TBLNAMA'","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"create table if not exists '$TBLNAMA'('$TBLNAMA'_id serial not null,value int not null)","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+#--------------------------------------------------------------------------------
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"drop table if exists '$TBLNAMB'","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+curl\
+	-X POST\
+	--data '{"action":"exec","params":{"query":"create table if not exists '$TBLNAMB'('$TBLNAMB'_id serial not null,'$TBLNAMA'_id int default 0,value int, primary key('$TBLNAMA'_id),unique('$TBLNAMA'_id),foreign key('$TBLNAMA'_id)references '$TBLNAMB'('$TBLNAMA'_id))","args":{}}}'\
+	-H "Content-type: application/json"\
+	"http://localhost:1111/lib/sjs/tst/db000.js"
+#anonymous block
+	curl\
+		http://localhost:1111/lib/sjs/tst/db000.js\
+		-X POST\
+		-H "Content-type: application/json" \
+		--data \
+'{
+	"action":"exec",
+	"params":{
+		"query":[
+			"DO $$",
+			"DECLARE",
+			"    counter integer:=0;",
+			"BEGIN",
+			"    insert into '$TBLNAMA' (value) values (0);",
+			"END $$"
+		],
+		"args":{
+			"foobar":0
+		}
+	}
+}'
+#named block
+	curl\
+		http://localhost:1111/lib/sjs/tst/db000.js\
+		-X POST\
+		-H "Content-type: application/json" \
+		--data \
+'{
+	"action":"exec",
+	"params":{
+		"query":[
+			"DO $$",
+			"<<first_block>>",
+			"DECLARE",
+			"    counter integer:=0;",
+			"BEGIN",
+			"    insert into '$TBLNAMA' (value) values (0);",
+			"END first_block $$;"
+		],
+		"args":{
+			"foobar":0
+		}
+	}
+}'
+#sub blocks
+	curl\
+		http://localhost:1111/lib/sjs/tst/db000.js\
+		-X POST\
+		-H "Content-type: application/json" \
+		--data \
+'{
+	"action":"exec",
+	"params":{
+		"query":[
+			"DO $$",
+			"<<outer_block>>",
+			"DECLARE",
+			"    counter integer:=123;",
+			"BEGIN",
+			"        DECLARE",
+			"            counter integer:=321;",
+			"        BEGIN",
+			"            insert into '$TBLNAMA' (value) values (counter);",
+			"            insert into '$TBLNAMA' (value) values (outer_block.counter);",
+			"        END;",
+			"END outer_block $$;"
+		],
+		"args":{
+			"foobar":0
+		}
+	}
+}'
+#loops
+	curl\
+		http://localhost:1111/lib/sjs/tst/db000.js\
+		-X POST\
+		-H "Content-type: application/json" \
+		--data \
+'{
+	"action":"exec",
+	"params":{
+		"query":[
+			"DO $$",
+			"<<first_block>>",
+			"DECLARE",
+			"    counter integer := 50;",
+			"BEGIN",
+			"    LOOP",
+			"        EXIT WHEN counter=60;",
+			"        counter=counter+1;",
+			"        insert into '$TBLNAMA' (value) values (counter);",
+			"    END LOOP;",
+			"END first_block $$;"
+		],
+		"args":{
+		}
+	}
+}'
+#create function
+	curl\
+		http://localhost:1111/lib/sjs/tst/db000.js\
+		-X POST\
+		-H "Content-type: application/json" \
+		--data \
+'{
+	"action":"exec",
+	"params":{
+		"query":[
+			"CREATE OR REPLACE FUNCTION test()",
+			"    RETURNS INTEGER AS $$",
+			"DECLARE",
+			"    counter integer := 12;",
+			"BEGIN",
+			"    insert into '$TBLNAMA' (value) values (counter);",
+			"END;",
+			"$$ LANGUAGE plpgsql"
+		],
+		"args":{
+		}
+	}
+}'
+#get serial value
+#INSERT INTO TBL(COL)VALUES(VAL) RETURNING TBL_I
+#also, notice how to return using a temporary table which persists
+#after the anonymous do block
+printf "________________________________________\n"
+printf "ONE TO ONE\n"
+printf "________________________________________\n"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"query":[
+			"DO $$",
+			"DECLARE",
+			"    id integer := 50;",
+			"    lastid integer;",
+			"BEGIN",
+			"    insert into '$TBLNAMA' (value) values (id) returning '$TBLNAMA'_id into lastid;",
+			"    insert into '$TBLNAMB' ('$TBLNAMA'_id,value) values (lastid,id*2);",
+			"    create temporary table _x on commit drop as",
+			"    select '$TBLNAMA'.'$TBLNAMA'_id,'$TBLNAMA'.value as a,'$TBLNAMB'.value as b from '$TBLNAMA' LEFT OUTER JOIN '$TBLNAMB' ON '$TBLNAMA'.'$TBLNAMA'_id='$TBLNAMB'.'$TBLNAMA'_id where '$TBLNAMA'.'$TBLNAMA'_id=lastid;",
+			"END $$;",
+			"select * from _x;"
+		],
+		"args":{
+		}
+	}
+}'
+
+#append to temp table
+printf "________________________________________\n"
+printf "BUILD OUT TEMP TABLE\n"
+printf "________________________________________\n"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	-H "Content-type: application/json" \
+	--data \
+'{
+	"action":"query",
+	"params":{
+		"query":[
+			"DO $$",
+			"DECLARE",
+			"    /* counters*/",
+			"    idx integer := 0;",
+			"    max integer := 50;",
+			"    /* usrdat */",
+			"    id integer  := 50;",
+			"    /* serials */",
+			"    lastid integer;",
+			"BEGIN",
+			"    /* tmp table */",
+			"    create temporary table _x(id serial,a int,b int) on commit drop;",
+			"    LOOP",
+			"        EXIT WHEN idx=max;",
+			"        /* reate two rows and set up 1-to-1 association */",
+			"        insert into '$TBLNAMA' (value) values (id) returning '$TBLNAMA'_id into lastid;",
+			"        insert into '$TBLNAMB' ('$TBLNAMA'_id,value) values (lastid,id*2);",
+			"        /* push to tmp table */",
+			"        insert into _x (id,a,b) select '$TBLNAMA'.'$TBLNAMA'_id,'$TBLNAMA'.value as a,'$TBLNAMB'.value as b from '$TBLNAMA' LEFT OUTER JOIN '$TBLNAMB' ON '$TBLNAMA'.'$TBLNAMA'_id='$TBLNAMB'.'$TBLNAMA'_id where '$TBLNAMA'.'$TBLNAMA'_id=lastid;",
+			"        idx=idx+1;",
+			"        id=id+1;",
+			"    END LOOP;",
+			"END $$;",
+			"/* select from tmp table */",
+			"select * from _x;"
+		],
+		"args":{
+		}
+	}
+}'
+
+printf "________________________________________\n"
+printf "'$TBLNAMA'\n"
+printf "________________________________________\n"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"query","params":{"query":"select * from '$TBLNAMA'","args":{}}}'\
+	-H "Content-type: application/json"
+printf "________________________________________\n"
+printf "'$TBLNAMB'\n"
+printf "________________________________________\n"
+curl\
+	http://localhost:1111/lib/sjs/tst/db000.js\
+	-X POST\
+	--data '{"action":"query","params":{"query":"select * from '$TBLNAMB'","args":{}}}'\
+	-H "Content-type: application/json"
+

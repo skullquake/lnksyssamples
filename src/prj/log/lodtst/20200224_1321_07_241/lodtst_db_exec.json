@@ -1,0 +1,53 @@
+{
+  "spec": {
+    "numberOfConnections": 125,
+    "testType": "timed",
+    "testDurationSeconds": 10,
+    "method": "POST",
+    "url": "http://localhost:1111/xaspost.js",
+    "headers": [
+      {
+        "key": "Content-type",
+        "value": "application/json"
+      }
+    ],
+    "body": "{\"cmd\":\"ls\"}",
+    "stream": false,
+    "timeoutSeconds": 2,
+    "client": "fasthttp"
+  },
+  "result": {
+    "bytesRead": 55404,
+    "bytesWritten": 33565,
+    "timeTakenSeconds": 10.301651964,
+    "req1xx": 0,
+    "req2xx": 243,
+    "req3xx": 0,
+    "req4xx": 0,
+    "req5xx": 0,
+    "others": 1447,
+    "errors": [
+      {
+        "description": "dial tcp 127.0.0.1:1111: connect: connection refused",
+        "count": 1447
+      }
+    ],
+    "latency": {
+      "mean": 759079.0857988165,
+      "stddev": 395394.62546725024,
+      "max": 1017847
+    },
+    "rps": {
+      "mean": 157.11404238448458,
+      "stddev": 445.7610064293006,
+      "max": 2276.5186210315082,
+      "percentiles": {
+        "50": 0,
+        "75": 0,
+        "90": 647.567574,
+        "95": 1318.391562,
+        "99": 2144.580466
+      }
+    }
+  }
+}
